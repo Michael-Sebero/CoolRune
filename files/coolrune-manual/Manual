@@ -482,9 +482,9 @@
 
 ..................................................................................................................................................
 
- / REINSTALL ALL /
+ / REINSTALL /
  
- . reinstall-all
+ . reinstall
 
  - This command reinstalls all packages in the system.
 
