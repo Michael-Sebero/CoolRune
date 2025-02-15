@@ -70,7 +70,7 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 groupadd gamemode && usermod -aG gamemode $(whoami) &&
 
 # RESET PERMISSIONS
-chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod -R 777 /home/$USER/.config/qBittorrent && chmod -R 777 /home/$USER/.config/bleachbit && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ &&
+chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config &&
 
 # HARDENING SCRIPT
 cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 027 &&
@@ -99,7 +99,7 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 7z x coolrune-dotfiles-laptop.7z -o/home/$USER/ -y && unzip -o coolrune-root-laptop.zip -d / && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
 
 # RESET PERMISSIONS
-chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod -R 777 /home/$USER/.config/qBittorrent && chmod -R 777 /home/$USER/.config/bleachbit && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ &&
+chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config &&
 
 # HARDENING SCRIPT
 cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 037 &&
@@ -128,7 +128,7 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 7z x coolrune-dotfiles.7z -o/home/$USER/ -y && unzip -o coolrune-root.zip -d / && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
 
 # RESET PERMISSIONS
-chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod -R 777 /home/$USER/.config/qBittorrent && chmod -R 777 /home/$USER/.config/bleachbit && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ &&
+chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config &&
 
 # CREATE GAMEMODE GROUP
 groupadd gamemode && usermod -aG gamemode $(whoami) &&
@@ -160,7 +160,7 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 7z x coolrune-dotfiles-laptop.7z -o/home/$USER/ -y && unzip -o coolrune-root-laptop.zip -d / && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
 
 # RESET PERMISSIONS
-chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod -R 777 /home/$USER/.config/qBittorrent && chmod -R 777 /home/$USER/.config/bleachbit && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ &&
+chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config &&
 
 # HARDENING SCRIPT
 cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 037 &&
@@ -192,7 +192,7 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 groupadd gamemode && usermod -aG gamemode $(whoami) &&
 
 # RESET PERMISSIONS
-chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod -R 777 /home/$USER/.config/qBittorrent && chmod -R 777 /home/$USER/.config/bleachbit && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ &&
+chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config &&
 
 # HARDENING SCRIPT
 cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 027 &&
@@ -224,7 +224,7 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 groupadd gamemode && usermod -aG gamemode $(whoami) &&
 
 # RESET PERMISSIONS
-chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod -R 777 /home/$USER/.config/qBittorrent && chmod -R 777 /home/$USER/.config/bleachbit && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ &&
+chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config &&
 
 # HARDENING SCRIPT
 cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 027 &&
