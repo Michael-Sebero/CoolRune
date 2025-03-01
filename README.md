@@ -67,6 +67,10 @@ https://github.com/Michael-Sebero/Fix-Arch-Linux
 	
 https://github.com/Michael-Sebero/Arch-Package-Dictionary
 	
+. OOM Daemon.
+	
+https://github.com/rfjakob/earlyoom
+	
 <p align="center">
 	<img src="https://i.postimg.cc/C53HDLTZ/ksnip-20240224-100057.png" />
 
