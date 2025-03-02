@@ -62,7 +62,6 @@ retry_pacman 5 pacman -S --noconfirm --needed --ignore=vlc,vlc-git lib32-artix-a
 
 # INSTALL PROTON-GE
 echo "Creating temporary working directory..."
-rm -rf /tmp/proton-ge-custom
 mkdir /tmp/proton-ge-custom
 cd /tmp/proton-ge-custom
 
@@ -151,7 +150,6 @@ retry_pacman 5 pacman -S --noconfirm --needed --ignore=vlc,vlc-git lib32-artix-a
 
 # INSTALL PROTON-GE
 echo "Creating temporary working directory..."
-rm -rf /tmp/proton-ge-custom
 mkdir /tmp/proton-ge-custom
 cd /tmp/proton-ge-custom
 
@@ -240,7 +238,6 @@ retry_pacman 5 pacman -S --noconfirm --needed --ignore=nvidia-390xx-utils,lib32-
 
 # INSTALL PROTON-GE
 echo "Creating temporary working directory..."
-rm -rf /tmp/proton-ge-custom
 mkdir /tmp/proton-ge-custom
 cd /tmp/proton-ge-custom
 
@@ -300,7 +297,6 @@ retry_pacman 5 pacman -S --noconfirm --needed --ignore=nvidia-390xx-utils,lib32-
 
 # INSTALL PROTON-GE
 echo "Creating temporary working directory..."
-rm -rf /tmp/proton-ge-custom
 mkdir /tmp/proton-ge-custom
 cd /tmp/proton-ge-custom
 
