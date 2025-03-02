@@ -1,18 +1,68 @@
-#!/bin/sh
+#!/bin/bash
 
 su -c '
 # RETRY LOGIC
 retry_pacman() {
-  local -r -i max_attempts="$1"
-  local -r command="${@:2}"
-  local -i attempt_num=1
-
+  local max_attempts="$1"
+  shift
+  local command="$@"
+  local attempt_num=1
+  
   until $command
   do
     if (( attempt_num == max_attempts ))
     then
-      echo "Attempt $attempt_num failed! No more retries left." >&2
-      return 1
+      echo "Attempt $attempt_num failed! Trying to continue with available packages..." >&2
+      
+      # Extract package names from the original command
+      local pkg_list=""
+      if echo "$command" | grep -q " -S "; then
+        pkg_list=$(echo "$command" | sed -E "s/.*pacman -S[[:space:]]+--noconfirm[[:space:]]+--needed([[:space:]]+--ignore=[^[:space:]]+)?[[:space:]]+//")
+      else
+        echo "Unable to parse package list from command, continuing..." >&2
+        return 0
+      fi
+      
+      # Extract the ignore flag if present
+      local ignore_flag=""
+      if echo "$command" | grep -q -- "--ignore="; then
+        ignore_flag=$(echo "$command" | grep -o -- "--ignore=[^ ]*")
+      fi
+      
+      # Get list of unavailable packages
+      echo "Testing package availability, please wait..." >&2
+      local all_pkgs=($pkg_list)
+      local available_pkgs=""
+      local failed_pkgs=""
+      
+      for pkg in "${all_pkgs[@]}"; do
+        if [ -z "$pkg" ]; then continue; fi
+        if pacman -Sp "$pkg" &>/dev/null; then
+          available_pkgs="$available_pkgs $pkg"
+        else
+          failed_pkgs="$failed_pkgs $pkg"
+        fi
+      done
+      
+      # Trim whitespace
+      available_pkgs=$(echo "$available_pkgs" | sed "s/^[[:space:]]*//;s/[[:space:]]*$//")
+      failed_pkgs=$(echo "$failed_pkgs" | sed "s/^[[:space:]]*//;s/[[:space:]]*$//")
+      
+      if [ -n "$failed_pkgs" ]; then
+        echo "Skipping unavailable packages: $failed_pkgs" >&2
+      fi
+      
+      if [ -n "$available_pkgs" ]; then
+        # Reconstruct the command with available packages
+        local new_cmd="pacman -S --noconfirm --needed $ignore_flag $available_pkgs"
+        echo "Executing modified command: $new_cmd" >&2
+        
+        # Execute the modified command
+        eval $new_cmd && return 0 || return 1
+      else
+        echo "No available packages found, continuing..." >&2
+        return 0
+      fi
     else
       echo "Attempt $attempt_num failed! Retrying in 5 seconds..." >&2
       sleep 5
