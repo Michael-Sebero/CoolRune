@@ -25,6 +25,8 @@ https://github.com/Michael-Sebero/Linux-Hardening-Script
 	
 . Antivirus software (ClamAV and Chkrootkit)
 	
+. Pre-configured sysctl.conf which is optimized for security and system performance.
+	
 . A custom version of LibreWolf that's more secure and lighter than Brave.
 
 https://github.com/Michael-Sebero/Vanguard-Browser
