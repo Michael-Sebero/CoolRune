@@ -108,34 +108,10 @@ killall xfce4-screensaver && pacman -Sy --noconfirm --needed p7zip git && mkdir 
 pacman -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv vulkan-intel && 
 
 # REPO PACKAGES INSTALL
-retry_pacman 5 pacman -S --noconfirm --needed --ignore=vlc,vlc-git lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux vulkan-icd-loader lib32-vulkan-icd-loader liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode fail2ban fail2ban-s6 okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit blueman bluez-s6 konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter paru lib32-mesa lib32-mesa-utils appimagelauncher opendoas linux-cachyos linux-cachyos-headers mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us vkbasalt lib32-vkbasalt chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv lxsession freetube python-magic python-piexif alsa-utils lib32-vulkan-radeon expect inotify-tools preload python-sounddevice python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread nix ccache earlyoom earlyoom-s6 &&
+retry_pacman 5 pacman -S --noconfirm --needed --ignore=vlc,vlc-git lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux vulkan-icd-loader lib32-vulkan-icd-loader liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode fail2ban fail2ban-s6 okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit blueman bluez-s6 konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter paru lib32-mesa lib32-mesa-utils appimagelauncher opendoas linux-cachyos linux-cachyos-headers mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us vkbasalt lib32-vkbasalt chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv lxsession freetube python-magic python-piexif alsa-utils lib32-vulkan-radeon expect inotify-tools preload python-sounddevice python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread nix ccache earlyoom earlyoom-s6 protonup-git &&
 
 # INSTALL PROTON-GE
-echo "Creating temporary working directory..."
-mkdir /tmp/proton-ge-custom
-cd /tmp/proton-ge-custom
-
-echo "Fetching tarball URL..."
-tarball_url=$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .tar.gz)
-tarball_name=$(basename $tarball_url)
-echo "Downloading tarball: $tarball_name..."
-curl -# -L $tarball_url -o $tarball_name --no-progress-meter
-
-echo "Fetching checksum URL..."
-checksum_url=$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .sha512sum)
-checksum_name=$(basename $checksum_url)
-echo "Downloading checksum: $checksum_name..."
-curl -# -L $checksum_url -o $checksum_name --no-progress-meter
-
-echo "Verifying tarball $tarball_name with checksum $checksum_name..."
-sha512sum -c $checksum_name
-
-echo "Creating Steam directory if it does not exist..."
-mkdir -p ~/.steam/root/compatibilitytools.d
-
-echo "Extracting $tarball_name to Steam directory..."
-tar -xf $tarball_name -C ~/.steam/root/compatibilitytools.d/
-echo "Proton-GE installation completed" && cd /home/coolrune-files/files/coolrune-packages/ &&
+su - $USER -c "protonup -y" &&
 
 # FLATPAK PACKAGES
 flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo && flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna org.jdownloader.JDownloader com.usebottles.bottles &&
@@ -196,34 +172,10 @@ killall xfce4-screensaver && pacman -Sy --noconfirm --needed p7zip git && mkdir 
 pacman -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv vulkan-radeon && 
 
 # REPO PACKAGES INSTALL
-retry_pacman 5 pacman -S --noconfirm --needed --ignore=vlc,vlc-git lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux vulkan-icd-loader lib32-vulkan-icd-loader liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode fail2ban fail2ban-s6 okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit blueman bluez-s6 konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter paru lib32-mesa lib32-mesa-utils appimagelauncher opendoas linux-cachyos linux-cachyos-headers mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us vkbasalt lib32-vkbasalt chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv lxsession freetube python-magic python-piexif alsa-utils intel-media-driver lib32-vulkan-intel expect inotify-tools preload python-sounddevice python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread nix ccache earlyoom earlyoom-s6 &&
+retry_pacman 5 pacman -S --noconfirm --needed --ignore=vlc,vlc-git lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux vulkan-icd-loader lib32-vulkan-icd-loader liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode fail2ban fail2ban-s6 okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit blueman bluez-s6 konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter paru lib32-mesa lib32-mesa-utils appimagelauncher opendoas linux-cachyos linux-cachyos-headers mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us vkbasalt lib32-vkbasalt chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv lxsession freetube python-magic python-piexif alsa-utils intel-media-driver lib32-vulkan-intel expect inotify-tools preload python-sounddevice python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread nix ccache earlyoom earlyoom-s6 protonup-git &&
 
 # INSTALL PROTON-GE
-echo "Creating temporary working directory..."
-mkdir /tmp/proton-ge-custom
-cd /tmp/proton-ge-custom
-
-echo "Fetching tarball URL..."
-tarball_url=$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .tar.gz)
-tarball_name=$(basename $tarball_url)
-echo "Downloading tarball: $tarball_name..."
-curl -# -L $tarball_url -o $tarball_name --no-progress-meter
-
-echo "Fetching checksum URL..."
-checksum_url=$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .sha512sum)
-checksum_name=$(basename $checksum_url)
-echo "Downloading checksum: $checksum_name..."
-curl -# -L $checksum_url -o $checksum_name --no-progress-meter
-
-echo "Verifying tarball $tarball_name with checksum $checksum_name..."
-sha512sum -c $checksum_name
-
-echo "Creating Steam directory if it does not exist..."
-mkdir -p ~/.steam/root/compatibilitytools.d
-
-echo "Extracting $tarball_name to Steam directory..."
-tar -xf $tarball_name -C ~/.steam/root/compatibilitytools.d/
-echo "Proton-GE installation completed" && cd /home/coolrune-files/files/coolrune-packages/ &&
+su - $USER -c "protonup -y" &&
 
 # FLATPAK PACKAGES
 flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo && flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna org.jdownloader.JDownloader com.usebottles.bottles &&
@@ -284,34 +236,10 @@ killall xfce4-screensaver && pacman -Sy --noconfirm --needed p7zip git && mkdir 
 pacman -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv && 
 
 # REPO PACKAGES INSTALL
-retry_pacman 5 pacman -S --noconfirm --needed --ignore=nvidia-390xx-utils,lib32-nvidia-390xx-utils,vlc,vlc-git lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux vulkan-icd-loader lib32-vulkan-icd-loader liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode fail2ban fail2ban-s6 okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit blueman bluez-s6 konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter paru linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings appimagelauncher opendoas linux-cachyos linux-cachyos-headers mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us vkbasalt lib32-vkbasalt chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv lxsession freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-sounddevice python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread nix ccache earlyoom earlyoom-s6 &&
+retry_pacman 5 pacman -S --noconfirm --needed --ignore=nvidia-390xx-utils,lib32-nvidia-390xx-utils,vlc,vlc-git lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux vulkan-icd-loader lib32-vulkan-icd-loader liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode fail2ban fail2ban-s6 okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit blueman bluez-s6 konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter paru linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings appimagelauncher opendoas linux-cachyos linux-cachyos-headers mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us vkbasalt lib32-vkbasalt chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv lxsession freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-sounddevice python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread nix ccache earlyoom earlyoom-s6 protonup-git &&
 
 # INSTALL PROTON-GE
-echo "Creating temporary working directory..."
-mkdir /tmp/proton-ge-custom
-cd /tmp/proton-ge-custom
-
-echo "Fetching tarball URL..."
-tarball_url=$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .tar.gz)
-tarball_name=$(basename $tarball_url)
-echo "Downloading tarball: $tarball_name..."
-curl -# -L $tarball_url -o $tarball_name --no-progress-meter
-
-echo "Fetching checksum URL..."
-checksum_url=$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .sha512sum)
-checksum_name=$(basename $checksum_url)
-echo "Downloading checksum: $checksum_name..."
-curl -# -L $checksum_url -o $checksum_name --no-progress-meter
-
-echo "Verifying tarball $tarball_name with checksum $checksum_name..."
-sha512sum -c $checksum_name
-
-echo "Creating Steam directory if it does not exist..."
-mkdir -p ~/.steam/root/compatibilitytools.d
-
-echo "Extracting $tarball_name to Steam directory..."
-tar -xf $tarball_name -C ~/.steam/root/compatibilitytools.d/
-echo "Proton-GE installation completed" && cd /home/coolrune-files/files/coolrune-packages/ &&
+su - $USER -c "protonup -y" &&
 
 # FLATPAK PACKAGES
 flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo && flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna org.jdownloader.JDownloader com.usebottles.bottles &&
@@ -343,34 +271,10 @@ killall xfce4-screensaver && pacman -Sy --noconfirm --needed p7zip git && mkdir 
 pacman -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv && 
 
 # REPO PACKAGES INSTALL
-retry_pacman 5 pacman -S --noconfirm --needed --ignore=nvidia-390xx-utils,lib32-nvidia-390xx-utils,vlc,vlc-git lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux vulkan-icd-loader lib32-vulkan-icd-loader liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode fail2ban fail2ban-s6 okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit blueman bluez-s6 konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter paru linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings appimagelauncher opendoas linux-cachyos linux-cachyos-headers mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us vkbasalt lib32-vkbasalt chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv lxsession freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-sounddevice python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread nix ccache earlyoom earlyoom-s6 &&
+retry_pacman 5 pacman -S --noconfirm --needed --ignore=nvidia-390xx-utils,lib32-nvidia-390xx-utils,vlc,vlc-git lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux vulkan-icd-loader lib32-vulkan-icd-loader liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode fail2ban fail2ban-s6 okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit blueman bluez-s6 konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter paru linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings appimagelauncher opendoas linux-cachyos linux-cachyos-headers mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us vkbasalt lib32-vkbasalt chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv lxsession freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-sounddevice python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread nix ccache earlyoom earlyoom-s6 protonup-git &&
 
 # INSTALL PROTON-GE
-echo "Creating temporary working directory..."
-mkdir /tmp/proton-ge-custom
-cd /tmp/proton-ge-custom
-
-echo "Fetching tarball URL..."
-tarball_url=$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .tar.gz)
-tarball_name=$(basename $tarball_url)
-echo "Downloading tarball: $tarball_name..."
-curl -# -L $tarball_url -o $tarball_name --no-progress-meter
-
-echo "Fetching checksum URL..."
-checksum_url=$(curl -s https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | grep browser_download_url | cut -d\" -f4 | grep .sha512sum)
-checksum_name=$(basename $checksum_url)
-echo "Downloading checksum: $checksum_name..."
-curl -# -L $checksum_url -o $checksum_name --no-progress-meter
-
-echo "Verifying tarball $tarball_name with checksum $checksum_name..."
-sha512sum -c $checksum_name
-
-echo "Creating Steam directory if it does not exist..."
-mkdir -p ~/.steam/root/compatibilitytools.d
-
-echo "Extracting $tarball_name to Steam directory..."
-tar -xf $tarball_name -C ~/.steam/root/compatibilitytools.d/
-echo "Proton-GE installation completed" && cd /home/coolrune-files/files/coolrune-packages/ &&
+su - $USER -c "protonup -y" &&
 
 # FLATPAK PACKAGES
 flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo && flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna org.jdownloader.JDownloader com.usebottles.bottles &&
