@@ -5,7 +5,7 @@
 
 ## **CoolRune Includes:**
 
-### **Modified Kernel & Peformance Tools:**
+### **A Modified Kernel & Peformance Tools:**
 * [CachyOS Kernel](https://wiki.cachyos.org/features/kernel/)
 * [Earlyoom](https://github.com/rfjakob/earlyoom)
 * [GameMode](https://github.com/FeralInteractive/gamemode)
