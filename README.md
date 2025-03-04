@@ -35,7 +35,7 @@
 ### **Additional Features:**
 * A comprehensive [manual](https://raw.githubusercontent.com/Michael-Sebero/CoolRune/main/files/coolrune-manual/Manual).
 * MAC address randomization.
-* Pre-configured `sysctl` for security, system performance and network efficiency.
+* Pre-configured `sysctl` for security enhancements, system performance and network efficiency.
 * Low latency [PipeWire](https://github.com/PipeWire/pipewire) audio processing.
 * [ALHP](https://wiki.archlinux.org/title/Unofficial_user_repositories#ALHP), [CachyOS](https://wiki.cachyos.org/features/optimized_repos/), [Chaotic-AUR](https://github.com/chaotic-aur/packages), and [Flatpak](https://flatpak.org/) repositories.
 * Optional pre-configured PipeWire audio profiles.
