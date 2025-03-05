@@ -1,7 +1,7 @@
 <p align="center">
 	<img src="https://i.postimg.cc/VLTRqVvW/logo.png" />
 
-<p align="center"><strong><font size="12">CoolRune</font></strong> is a high-performance, security-focused meta-distribution of Artix Linux.</p>
+<p align="center"><strong><font size="12">CoolRune</font></strong> is a High-Performance, Security-Focused Meta-Distribution of Artix Linux</p>
 
 ## **CoolRune Includes:**
 
