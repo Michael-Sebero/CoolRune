@@ -120,7 +120,7 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 7z x coolrune-dotfiles.7z -o/home/$USER/ -y && unzip -o coolrune-root.zip -d / && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && s6-service add default earlyoom && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
 
 # CREATE GAMEMODE GROUP
-groupadd gamemode && usermod -aG gamemode $(whoami) &&
+groupadd -f gamemode && ACTUAL_USER=$(ls -la /home | grep -v root | grep -v total | head -1 | awk '{print $3}') && usermod -aG gamemode $ACTUAL_USER && echo "Added user $ACTUAL_USER to gamemode group" && groups $ACTUAL_USER &&
 
 # RESET PERMISSIONS
 chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue /etc/issue.net && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue /etc/issue.net && chmod 600 /etc/shadow &&
@@ -187,7 +187,7 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue /etc/issue.net && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue /etc/issue.net && chmod 600 /etc/shadow &&
 
 # CREATE GAMEMODE GROUP
-groupadd gamemode && usermod -aG gamemode $(whoami) &&
+groupadd -f gamemode && ACTUAL_USER=$(ls -la /home | grep -v root | grep -v total | head -1 | awk '{print $3}') && usermod -aG gamemode $ACTUAL_USER && echo "Added user $ACTUAL_USER to gamemode group" && groups $ACTUAL_USER &&
 
 # HARDENING SCRIPT
 cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 027 &&
@@ -248,7 +248,7 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 7z x coolrune-dotfiles.7z -o/home/$USER/ -y && unzip -o coolrune-root.zip -d / && 7z x coolrune-nvidia-patch.7z -o/ -y && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && s6-service add default earlyoom && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
 
 # CREATE GAMEMODE GROUP
-groupadd gamemode && usermod -aG gamemode $(whoami) &&
+groupadd -f gamemode && ACTUAL_USER=$(ls -la /home | grep -v root | grep -v total | head -1 | awk '{print $3}') && usermod -aG gamemode $ACTUAL_USER && echo "Added user $ACTUAL_USER to gamemode group" && groups $ACTUAL_USER &&
 
 # RESET PERMISSIONS
 chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue /etc/issue.net && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue /etc/issue.net && chmod 600 /etc/shadow &&
@@ -283,7 +283,7 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 7z x coolrune-dotfiles.7z -o/home/$USER/ -y && unzip -o coolrune-root.zip -d / && 7z x coolrune-nvidia-patch.7z -o/ -y && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && s6-service add default earlyoom && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
 
 # CREATE GAMEMODE GROUP
-groupadd gamemode && usermod -aG gamemode $(whoami) &&
+groupadd -f gamemode && ACTUAL_USER=$(ls -la /home | grep -v root | grep -v total | head -1 | awk '{print $3}') && usermod -aG gamemode $ACTUAL_USER && echo "Added user $ACTUAL_USER to gamemode group" && groups $ACTUAL_USER &&
 
 # RESET PERMISSIONS
 chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue /etc/issue.net && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue /etc/issue.net && chmod 600 /etc/shadow &&
