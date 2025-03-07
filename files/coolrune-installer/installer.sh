@@ -120,7 +120,17 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 7z x coolrune-dotfiles.7z -o/home/$USER/ -y && unzip -o coolrune-root.zip -d / && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && s6-service add default earlyoom && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
 
 # CREATE GAMEMODE GROUP
-groupadd -f gamemode && ACTUAL_USER=$(ls -la /home | grep -v "^d" | grep -v "total" | head -1 | awk '{print $3}') && usermod -aG gamemode "${ACTUAL_USER}" && echo "Added user ${ACTUAL_USER} to gamemode group" && groups "${ACTUAL_USER}" &&
+groupadd -f gamemode
+# Get the actual user from the home directory structure more reliably
+TARGET_USER=$USER
+if [ "$TARGET_USER" = "root" ]; then
+  TARGET_USER=$(find /home -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | head -1)
+fi
+# Add the user to gamemode group
+usermod -aG gamemode "$TARGET_USER"
+echo "Added user $TARGET_USER to gamemode group"
+# Verify the groups
+id "$TARGET_USER" | grep -o "gamemode" &>/dev/null && echo "Successfully added to gamemode group" || echo "Failed to add to gamemode group" &&
 
 # RESET PERMISSIONS
 chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 600 /etc/shadow &&
@@ -187,7 +197,17 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 600 /etc/shadow &&
 
 # CREATE GAMEMODE GROUP
-groupadd -f gamemode && ACTUAL_USER=$(ls -la /home | grep -v "^d" | grep -v "total" | head -1 | awk '{print $3}') && usermod -aG gamemode "${ACTUAL_USER}" && echo "Added user ${ACTUAL_USER} to gamemode group" && groups "${ACTUAL_USER}" &&
+groupadd -f gamemode
+# Get the actual user from the home directory structure more reliably
+TARGET_USER=$USER
+if [ "$TARGET_USER" = "root" ]; then
+  TARGET_USER=$(find /home -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | head -1)
+fi
+# Add the user to gamemode group
+usermod -aG gamemode "$TARGET_USER"
+echo "Added user $TARGET_USER to gamemode group"
+# Verify the groups
+id "$TARGET_USER" | grep -o "gamemode" &>/dev/null && echo "Successfully added to gamemode group" || echo "Failed to add to gamemode group" &&
 
 # HARDENING SCRIPT
 cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 027 &&
@@ -248,7 +268,17 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 7z x coolrune-dotfiles.7z -o/home/$USER/ -y && unzip -o coolrune-root.zip -d / && 7z x coolrune-nvidia-patch.7z -o/ -y && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && s6-service add default earlyoom && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
 
 # CREATE GAMEMODE GROUP
-groupadd -f gamemode && ACTUAL_USER=$(ls -la /home | grep -v "^d" | grep -v "total" | head -1 | awk '{print $3}') && usermod -aG gamemode "${ACTUAL_USER}" && echo "Added user ${ACTUAL_USER} to gamemode group" && groups "${ACTUAL_USER}" &&
+groupadd -f gamemode
+# Get the actual user from the home directory structure more reliably
+TARGET_USER=$USER
+if [ "$TARGET_USER" = "root" ]; then
+  TARGET_USER=$(find /home -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | head -1)
+fi
+# Add the user to gamemode group
+usermod -aG gamemode "$TARGET_USER"
+echo "Added user $TARGET_USER to gamemode group"
+# Verify the groups
+id "$TARGET_USER" | grep -o "gamemode" &>/dev/null && echo "Successfully added to gamemode group" || echo "Failed to add to gamemode group" &&
 
 # RESET PERMISSIONS
 chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 600 /etc/shadow &&
@@ -283,7 +313,17 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 7z x coolrune-dotfiles.7z -o/home/$USER/ -y && unzip -o coolrune-root.zip -d / && 7z x coolrune-nvidia-patch.7z -o/ -y && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && s6-service add default earlyoom && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
 
 # CREATE GAMEMODE GROUP
-groupadd -f gamemode && ACTUAL_USER=$(ls -la /home | grep -v "^d" | grep -v "total" | head -1 | awk '{print $3}') && usermod -aG gamemode "${ACTUAL_USER}" && echo "Added user ${ACTUAL_USER} to gamemode group" && groups "${ACTUAL_USER}" &&
+groupadd -f gamemode
+# Get the actual user from the home directory structure more reliably
+TARGET_USER=$USER
+if [ "$TARGET_USER" = "root" ]; then
+  TARGET_USER=$(find /home -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | head -1)
+fi
+# Add the user to gamemode group
+usermod -aG gamemode "$TARGET_USER"
+echo "Added user $TARGET_USER to gamemode group"
+# Verify the groups
+id "$TARGET_USER" | grep -o "gamemode" &>/dev/null && echo "Successfully added to gamemode group" || echo "Failed to add to gamemode group" &&
 
 # RESET PERMISSIONS
 chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && flatpak override com.usebottles.bottles --filesystem=/home/$USER/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 600 /etc/shadow &&
