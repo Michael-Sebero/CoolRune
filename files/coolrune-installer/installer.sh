@@ -121,7 +121,6 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 
 # CREATE GAMEMODE GROUP
 groupadd -f gamemode
-# Get the actual user from the home directory structure more reliably
 TARGET_USER=$USER
 if [ "$TARGET_USER" = "root" ]; then
   TARGET_USER=$(find /home -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | head -1)
@@ -198,7 +197,6 @@ chmod -R 755 /home/$USER && chmod -R 777 /home/$USER/.librewolf/ && chmod -R 755
 
 # CREATE GAMEMODE GROUP
 groupadd -f gamemode
-# Get the actual user from the home directory structure more reliably
 TARGET_USER=$USER
 if [ "$TARGET_USER" = "root" ]; then
   TARGET_USER=$(find /home -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | head -1)
@@ -269,7 +267,6 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 
 # CREATE GAMEMODE GROUP
 groupadd -f gamemode
-# Get the actual user from the home directory structure more reliably
 TARGET_USER=$USER
 if [ "$TARGET_USER" = "root" ]; then
   TARGET_USER=$(find /home -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | head -1)
@@ -314,7 +311,6 @@ flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatp
 
 # CREATE GAMEMODE GROUP
 groupadd -f gamemode
-# Get the actual user from the home directory structure more reliably
 TARGET_USER=$USER
 if [ "$TARGET_USER" = "root" ]; then
   TARGET_USER=$(find /home -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | head -1)
