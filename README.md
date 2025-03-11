@@ -45,7 +45,6 @@
 * **10-25%** FPS boost in gaming.
 * **15-40%** faster system responsiveness.
 * **20-50%** improved network efficiency.
-* Performance equivalent to [Clear Linux's](https://www.clearlinux.org/).
 * A Lynis system hardening rating of **80**.
 
 <p align="center">
