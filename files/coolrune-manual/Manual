@@ -52,6 +52,9 @@
  - All DNS traffic is encrypted through [ dnscrypt-proxy ] via Yandex which prevents DNS leaks.
 
  - The [ steal ] command installs packages from the default repo, AUR and Flatpak. It also can download videos.
+ 
+ - On laptops when reaching below 75% battery life will allow charging the battery up to 79%. The laptop will switch to AC mode and stop using the 
+   battery. In this threshold you'll experience increased system performance. 
 
  - Change shaders to Vulkan in Steam settings and enable Steam Play for Linux compatibility.
 
@@ -59,10 +62,6 @@
 
  - To get more FPS for games and better visuals copy & paste [ gamemoderun ENABLE_VKBASALT=1 %command% ] in launch options -
    which is found through properties in Steam.
- 
- - CoolRune comes with a customized LibreWolf instance called "Vanguard" which is tweaked to have maximum security.
-
- > https://github.com/Michael-Sebero/Vanguard-Browser
 
 ..................................................................................................................................................
 
@@ -249,9 +248,9 @@
  
 ..................................................................................................................................................
 
- / ANTI-VIRUS /
+ / ANTIVIRUS /
  
- . anti-virus
+ . antivirus
  
  - This command uses ClamAV to scan your whole system and automatically removes suspected malware.
 
@@ -395,6 +394,14 @@
 
  - This command reinstalls all packages in the system.
 
+..................................................................................................................................................
+
+ / STATELESS DESIGN MODE /
+
+ . sudo sd
+ 
+ - This command implements stateless design.
+ 
 ..................................................................................................................................................
 
 ==================================================================================================================================================
@@ -644,7 +651,7 @@
 
  . git clone ( URL )
 
- . cd ( FILE )
+ . cd ( DIRECTORY )
 
  . makepkg -sirc
  
@@ -654,7 +661,7 @@
 
  . git clone ( URL )
 
- . cd ( FILE )
+ . cd ( DIRECTORY )
 
  . pip install -r requirements.txt --break-system-packages
 
@@ -668,11 +675,19 @@
  
  . git clone ( URL )
 
- . cd ( FILE )
+ . cd ( DIRECTORY )
 
  . cargo build --release
 
 ..................................................................................................................................................
+
+ > HOW TO INSTALL PACMAN PACKAGES FROM FILE
+ 
+ . cd ( DIRECTORY )
+ 
+ . sudo pacman -U your-file-0.1-amd64.pacman
+
+.................................................................................................................................................. 
 
  > WINE COMMANDS AND HOW TO USE WINE
  

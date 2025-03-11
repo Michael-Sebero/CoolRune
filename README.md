@@ -5,13 +5,13 @@
 
 ## **CoolRune Includes:**
 
-### **A Modified Kernel & Peformance Tools:**
+### **A Modified Kernel & Performance Tools**
 * [CachyOS Kernel](https://wiki.cachyos.org/features/kernel/)
 * [Earlyoom](https://github.com/rfjakob/earlyoom)
 * [GameMode](https://github.com/FeralInteractive/gamemode)
-* [Proton GE](https://github.com/GloriousEggroll/proton-ge-custom)
+* [Zramen](https://github.com/atweiden/zramen)
 
-### **Security Software:**
+### **Security Software**
 * [AppArmor](https://en.wikipedia.org/wiki/AppArmor)
 * [Chkrootkit](https://en.wikipedia.org/wiki/Chkrootkit)
 * [ClamAV](https://github.com/Cisco-Talos/clamav)
@@ -22,7 +22,7 @@
 * [USBGuard](https://github.com/USBGuard/usbguard)
 * [UFW](https://en.wikipedia.org/wiki/Uncomplicated_Firewall)
 
-### **Tools & Utilities:**
+### **Tools & Utilities**
 * [Arch Package Dictionary](https://github.com/Michael-Sebero/Arch-Package-Dictionary)
 * [Archivist Tools](https://github.com/Michael-Sebero/Archivist-Tools)
 * [Audio Frequency Tools](https://github.com/Michael-Sebero/Audio-Frequency-Tools)
@@ -30,16 +30,20 @@
 * [Fix Arch Linux](https://github.com/Michael-Sebero/Fix-Arch-Linux)
 * [Media Tools](https://github.com/Michael-Sebero/Media-Tools)
 * [Productivity Mode](https://github.com/Michael-Sebero/Productivity-Mode)
-* [Vanguard Browser](https://github.com/Michael-Sebero/Vanguard-Browser)
 
-### **Additional Features:**
+### **Additional Features**
 * A comprehensive [manual](https://raw.githubusercontent.com/Michael-Sebero/CoolRune/main/files/coolrune-manual/Manual).
 * MAC address randomization.
 * Configured `sysctl` and `limits` for security enhancements, system performance and network efficiency.
 * Low latency [PipeWire](https://github.com/PipeWire/pipewire) audio processing.
 * [ALHP](https://wiki.archlinux.org/title/Unofficial_user_repositories#ALHP), [CachyOS](https://wiki.cachyos.org/features/optimized_repos/), [Chaotic-AUR](https://github.com/chaotic-aur/packages), and [Flatpak](https://flatpak.org/) repositories.
+* Steam [Proton GE](https://github.com/GloriousEggroll/proton-ge-custom) prefix.
+* Optional [Stateless Design](https://www.clearlinux.org/clear-linux-documentation/guides/clear/stateless.html) mode.
+* [ZFS](https://github.com/openzfs/zfs) compatiblity.
 * Optional pre-configured PipeWire audio profiles.
 * Custom Windows-like XFCE theme.
+* [Booster](https://github.com/anatol/booster) (mkinitcpio replacement).
+* Battery life optimizations for laptops via [TLP](https://github.com/linrunner/TLP)
 
 ## Performance & Security Expectations
 * **10-25%** FPS boost in gaming.
