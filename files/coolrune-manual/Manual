@@ -644,7 +644,7 @@
 
  . git clone ( URL )
 
- . cd ( FILE )
+ . cd ( DIRECTORY )
 
  . makepkg -sirc
  
@@ -654,7 +654,7 @@
 
  . git clone ( URL )
 
- . cd ( FILE )
+ . cd ( DIRECTORY )
 
  . pip install -r requirements.txt --break-system-packages
 
@@ -668,11 +668,19 @@
  
  . git clone ( URL )
 
- . cd ( FILE )
+ . cd ( DIRECTORY )
 
  . cargo build --release
 
 ..................................................................................................................................................
+
+ > HOW TO INSTALL PACMAN PACKAGES FROM FILE
+ 
+ . cd ( DIRECTORY )
+ 
+ . sudo pacman -U your-file-0.1-amd64.pacman
+
+.................................................................................................................................................. 
 
  > WINE COMMANDS AND HOW TO USE WINE
  
