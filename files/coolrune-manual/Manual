@@ -59,10 +59,6 @@
 
  - To get more FPS for games and better visuals copy & paste [ gamemoderun ENABLE_VKBASALT=1 %command% ] in launch options -
    which is found through properties in Steam.
- 
- - CoolRune comes with a customized LibreWolf instance called "Vanguard" which is tweaked to have maximum security.
-
- > https://github.com/Michael-Sebero/Vanguard-Browser
 
 ..................................................................................................................................................
 
