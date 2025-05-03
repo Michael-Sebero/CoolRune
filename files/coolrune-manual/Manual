@@ -60,8 +60,7 @@
 
  - Use [ GloriousEggroll ] which is provided with CoolRune as your proton prefix for Steam.
 
- - To get more FPS for games and better visuals copy & paste [ gamemoderun ENABLE_VKBASALT=1 %command% ] in launch options -
-   which is found through properties in Steam.
+ - To get more FPS for games copy & paste [ gamemoderun %command% ] in launch options which is found through properties in Steam.
 
 ..................................................................................................................................................
 
@@ -92,7 +91,7 @@
 
  - This command searches Pacman, AUR and Flatpak for specific packages based off keywords.
  
- - Press Q to leave the enviroment
+ - Press Q to leave the enviroment.
 
 ..................................................................................................................................................
 
@@ -403,6 +402,12 @@
  - This command implements stateless design.
  
 ..................................................................................................................................................
+
+ / FIND FAST MIRRORLISTS /
+ 
+ . fastlist
+ 
+ - This command disables slow pacman mirrorlists and enables fast ones according to your location.
 
 ==================================================================================================================================================
 
