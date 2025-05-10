@@ -273,7 +273,7 @@ echo "Added user $TARGET_USER to gamemode group"
 id "$TARGET_USER" | grep -o "gamemode" &>/dev/null && echo "Successfully added to gamemode group" || echo "Failed to add to gamemode group" &&
 
 # RESET PERMISSIONS
-chmod -R 755 /home/$USER && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 600 /etc/shadow && chmod -R 777 /home/$USER/.local/ &&
+chmod -R 755 /home/$USER && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 600 /etc/shadow && chmod -R 777 /home/$USER/.local/ && chmod -R 755 /home/$USER/.nvidia-settings-rc &&
 
 # HARDENING SCRIPT
 cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 027 &&
@@ -314,7 +314,7 @@ echo "Added user $TARGET_USER to gamemode group"
 id "$TARGET_USER" | grep -o "gamemode" &>/dev/null && echo "Successfully added to gamemode group" || echo "Failed to add to gamemode group" &&
 
 # RESET PERMISSIONS
-chmod -R 755 /home/$USER && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 600 /etc/shadow && chmod -R 777 /home/$USER/.local/ &&
+chmod -R 755 /home/$USER && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/$USER/.var/ && chmod -R 777 /home/$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 600 /etc/shadow && chmod -R 777 /home/$USER/.local/ && chmod -R 755 /home/$USER/.nvidia-settings-rc &&
 
 # HARDENING SCRIPT
 cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 027 &&
