@@ -82,7 +82,7 @@ echo -e "\e[1mImporting Chaotic AUR keys...\e[0m"
 pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com; pacman-key --lsign-key 3056513887B78AEB
 
 # FIRST COMMANDS AND COOLRUNE IMPORT P1
-killall xfce4-screensaver && pacman -Sy --noconfirm --needed paru p7zip git && mkdir /home/coolrune-files/ && git clone https://github.com/Michael-Sebero/CoolRune /home/coolrune-files/ && cd /home/coolrune-files/files/coolrune-packages/ && 7z e coolrune-pacman-1.7z -o/etc/ -y && pacman -Sy --noconfirm artix-archlinux-support pacman-contrib && pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' && 7z e coolrune-pacman-2.7z -o/etc/ -y && chmod 755 /etc/pacman.conf && paru -Sy -- --skipinteg alhp-keyring && pacman-key --populate archlinux artix alhp &&
+killall xfce4-screensaver && pacman -Sy --noconfirm --needed paru p7zip git && mkdir /home/coolrune-files/ && git clone https://github.com/Michael-Sebero/CoolRune /home/coolrune-files/ && cd /home/coolrune-files/files/coolrune-packages/ && 7z e coolrune-pacman-1.7z -o/etc/ -y && pacman -Sy --noconfirm artix-archlinux-support pacman-contrib && pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst' && 7z e coolrune-pacman-2.7z -o/etc/ -y && chmod 755 /etc/pacman.conf && paru -S -- --skipinteg alhp-keyring && pacman-key --populate archlinux artix alhp &&
 
 # FIND QUICKEST MIRRORLIST
 echo -e "\e[1mFinding quickest mirrorlist, please wait...\e[0m"
