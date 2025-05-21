@@ -75,7 +75,7 @@ retry_pacman() {
 
 # ALHP
 echo -e "\e[1mImporting ALHP keys...\e[0m"
-pacman-key --recv-keys E3D0D2CD3952E298 --keyserver keyserver.ubuntu.com; pacman-key --lsign-key E3D0D2CD3952E298
+pacman-key --recv-keys 0FE58E8D1B980E51 --keyserver keyserver.ubuntu.com; pacman-key --lsign-key 0FE58E8D1B980E51
 
 # CACHYOS
 echo -e "\e[1mImporting CachyOS keys...\e[0m"
