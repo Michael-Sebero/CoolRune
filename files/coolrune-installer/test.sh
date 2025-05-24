@@ -116,39 +116,39 @@ retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-g
 
 # AMD-DESKTOP CHOICE
 if [ "$choice" = "1" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon protonup-git 
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon protonup-git &&
 fi
 
 # AMD-LAPTOP CHOICE
 if [ "$choice" = "2" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon throttled tlp tlp-s6 blueman bluez bluez-s6
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon throttled tlp tlp-s6 blueman bluez bluez-s6 &&
 fi
 
 # INTEL-DESKTOP CHOICE
 if [ "$choice" = "3" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader protonup-git
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader protonup-git &&
 fi
 
 # INTEL-LAPTOP CHOICE
 if [ "$choice" = "4" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs vulkan-icd-loader lib32-vulkan-icd-loader throttled tlp tlp-s6 blueman bluez bluez-s6
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs vulkan-icd-loader lib32-vulkan-icd-loader throttled tlp tlp-s6 blueman bluez bluez-s6 &&
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
 if [ "$choice" = "5" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings &&
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
 if [ "$choice" = "6" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings &&
 fi
 
 # FLATPAK PACKAGES
 flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo && flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna org.jdownloader.JDownloader &&
 
 # INSTALL PROTON-GE
-pacman -Q protonup-git &>/dev/null && su - "$USER" -c "protonup -d /home/$USER/.local/share/Steam/compatibilitytools.d/ && protonup -y" || true
+pacman -Q protonup-git &>/dev/null && su - "$USER" -c "protonup -d /home/$USER/.local/share/Steam/compatibilitytools.d/ && protonup -y" || true &&
 
 
 
