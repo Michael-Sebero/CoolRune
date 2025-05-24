@@ -17,7 +17,10 @@ if [[ ! "$choice" =~ ^[1-6]$ ]]; then
     exit 1
 fi
 
+# Pass the choice variable to the su command
 su -c "
+CHOICE='$choice'
+
 ### RETRY LOGIC ###
 
 retry_pacman() {
@@ -140,38 +143,40 @@ retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-g
 
 ### VARIANT-SPECIFIC PACKAGE INSTALLATION ###
 
+echo -e \"\e[1mInstalling variant-specific packages for choice: \$CHOICE\e[0m\"
+
 # AMD-DESKTOP CHOICE
-if [ \"$choice\" = \"1\" ]; then
+if [ \"\$CHOICE\" = \"1\" ]; then
     echo -e \"\e[1mInstalling AMD Desktop packages...\e[0m\"
     retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon protonup-git
 fi
 
 # AMD-LAPTOP CHOICE
-if [ \"$choice\" = \"2\" ]; then
+if [ \"\$CHOICE\" = \"2\" ]; then
     echo -e \"\e[1mInstalling AMD Laptop packages...\e[0m\"
     retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon throttled tlp tlp-s6 blueman bluez bluez-s6
 fi
 
 # INTEL-DESKTOP CHOICE
-if [ \"$choice\" = \"3\" ]; then
+if [ \"\$CHOICE\" = \"3\" ]; then
     echo -e \"\e[1mInstalling Intel Desktop packages...\e[0m\"
     retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader protonup-git
 fi
 
 # INTEL-LAPTOP CHOICE
-if [ \"$choice\" = \"4\" ]; then
+if [ \"\$CHOICE\" = \"4\" ]; then
     echo -e \"\e[1mInstalling Intel Laptop packages...\e[0m\"
     retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs vulkan-icd-loader lib32-vulkan-icd-loader throttled tlp tlp-s6 blueman bluez bluez-s6
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
-if [ \"$choice\" = \"5\" ]; then
+if [ \"\$CHOICE\" = \"5\" ]; then
     echo -e \"\e[1mInstalling NVIDIA Open Source Desktop packages...\e[0m\"
     retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
-if [ \"$choice\" = \"6\" ]; then
+if [ \"\$CHOICE\" = \"6\" ]; then
     echo -e \"\e[1mInstalling NVIDIA Proprietary Desktop packages...\e[0m\"
     retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings
 fi
@@ -190,7 +195,7 @@ fi
 ### COOLRUNE CONFIGURATION INSTALLATION ###
 
 # AMD/INTEL DESKTOP SELECTION
-if [ \"$choice\" = \"1\" ] || [ \"$choice\" = \"3\" ]; then
+if [ \"\$CHOICE\" = \"1\" ] || [ \"\$CHOICE\" = \"3\" ]; then
     echo -e \"\e[1mConfiguring desktop environment...\e[0m\"
     7z x coolrune-dotfiles.7z -o/home/\$USER/ -y
     unzip -o coolrune-root.zip -d /
@@ -209,7 +214,7 @@ if [ \"$choice\" = \"1\" ] || [ \"$choice\" = \"3\" ]; then
 fi
 
 # LAPTOP SELECTION
-if [ \"$choice\" = \"2\" ] || [ \"$choice\" = \"4\" ]; then
+if [ \"\$CHOICE\" = \"2\" ] || [ \"\$CHOICE\" = \"4\" ]; then
     echo -e \"\e[1mConfiguring laptop environment...\e[0m\"
     7z x coolrune-dotfiles-laptop.7z -o/home/\$USER/ -y
     unzip -o coolrune-root-laptop.zip -d /
@@ -229,7 +234,7 @@ if [ \"$choice\" = \"2\" ] || [ \"$choice\" = \"4\" ]; then
 fi
 
 # NVIDIA SELECTION
-if [ \"$choice\" = \"5\" ] || [ \"$choice\" = \"6\" ]; then
+if [ \"\$CHOICE\" = \"5\" ] || [ \"\$CHOICE\" = \"6\" ]; then
     echo -e \"\e[1mConfiguring NVIDIA environment...\e[0m\"
     7z x coolrune-dotfiles.7z -o/home/\$USER/ -y
     unzip -o coolrune-root.zip -d /
@@ -249,7 +254,7 @@ if [ \"$choice\" = \"5\" ] || [ \"$choice\" = \"6\" ]; then
 fi
 
 # CREATE GAMEMODE GROUP (Desktop variants only)
-if [ \"$choice\" = \"1\" ] || [ \"$choice\" = \"3\" ] || [ \"$choice\" = \"5\" ] || [ \"$choice\" = \"6\" ]; then
+if [ \"\$CHOICE\" = \"1\" ] || [ \"\$CHOICE\" = \"3\" ] || [ \"\$CHOICE\" = \"5\" ] || [ \"\$CHOICE\" = \"6\" ]; then
     echo -e \"\e[1mSetting up gamemode...\e[0m\"
     groupadd -f gamemode
     TARGET_USER=\$USER
