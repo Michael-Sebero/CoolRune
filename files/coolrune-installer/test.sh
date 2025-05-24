@@ -88,18 +88,15 @@ read -p "Enter your choice (1-6): " choice
 
 # ALHP
 echo -e "\e[1mImporting ALHP keys...\e[0m"
-pacman-key --recv-keys 0FE58E8D1B980E51 --keyserver keyserver.ubuntu.com
-pacman-key --lsign-key 0FE58E8D1B980E51
+pacman-key --recv-keys 0FE58E8D1B980E51 --keyserver keyserver.ubuntu.com; pacman-key --lsign-key 0FE58E8D1B980E51
 
 # CACHYOS
 echo -e "\e[1mImporting CachyOS keys...\e[0m"
-pacman-key --recv-keys F3B607488DB35A47 --keyserver keyserver.ubuntu.com
-pacman-key --lsign-key F3B607488DB35A47
+pacman-key --recv-keys F3B607488DB35A47 --keyserver keyserver.ubuntu.com; pacman-key --lsign-key F3B607488DB35A47
 
 # CHAOTIC AUR
 echo -e "\e[1mImporting Chaotic AUR keys...\e[0m"
-pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-pacman-key --lsign-key 3056513887B78AEB
+pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com; pacman-key --lsign-key 3056513887B78AEB
 
 # FIRST COMMANDS AND COOLRUNE IMPORT P1
 killall xfce4-screensaver
