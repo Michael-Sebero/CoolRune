@@ -123,36 +123,36 @@ retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-g
 
 # AMD-DESKTOP CHOICE
 if [ \"$choice\" = \"1\" ]; then
-retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon protonup-git 
+    retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon protonup-git
 fi
 
 # AMD-LAPTOP CHOICE
 if [ \"$choice\" = \"2\" ]; then
-retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon throttled tlp tlp-s6 blueman bluez bluez-s6
+    retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon throttled tlp tlp-s6 blueman bluez bluez-s6
 fi
 
 # INTEL-DESKTOP CHOICE
 if [ \"$choice\" = \"3\" ]; then
-retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader protonup-git
+    retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader protonup-git
 fi
 
 # INTEL-LAPTOP CHOICE
 if [ \"$choice\" = \"4\" ]; then
-retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs vulkan-icd-loader lib32-vulkan-icd-loader throttled tlp tlp-s6 blueman bluez bluez-s6
+    retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs vulkan-icd-loader lib32-vulkan-icd-loader throttled tlp tlp-s6 blueman bluez bluez-s6
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
 if [ \"$choice\" = \"5\" ]; then
-retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings
+    retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
 if [ \"$choice\" = \"6\" ]; then
-retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings
+    retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings
 fi
 
 # FLATPAK PACKAGES
-flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo && flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna org.jdownloader.JDownloader &&
+flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo && flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna org.jdownloader.JDownloader
 
 # INSTALL PROTON-GE
 pacman -Q protonup-git &>/dev/null && su - \"\$USER\" -c \"protonup -d /home/\$USER/.local/share/Steam/compatibilitytools.d/ && protonup -y\" || true
@@ -163,38 +163,38 @@ pacman -Q protonup-git &>/dev/null && su - \"\$USER\" -c \"protonup -d /home/\$U
 
 # AMD/INTEL DESKTOP SELECTION
 if [ \"$choice\" = \"1\" ] || [ \"$choice\" = \"3\" ]; then
-7z x coolrune-dotfiles.7z -o/home/\$USER/ -y && unzip -o coolrune-root.zip -d / && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && s6-service add default earlyoom && s6-service add default zramen && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
+    7z x coolrune-dotfiles.7z -o/home/\$USER/ -y && unzip -o coolrune-root.zip -d / && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && s6-service add default earlyoom && s6-service add default zramen && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
 # LAPTOP SELECTION
 if [ \"$choice\" = \"2\" ] || [ \"$choice\" = \"4\" ]; then
-7z x coolrune-dotfiles-laptop.7z -o/home/\$USER/ -y && unzip -o coolrune-root-laptop.zip -d / && s6-service add default cpupower && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default earlyoom && s6-service add default zramen && s6-service add default tlp && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
+    7z x coolrune-dotfiles-laptop.7z -o/home/\$USER/ -y && unzip -o coolrune-root-laptop.zip -d / && s6-service add default cpupower && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default earlyoom && s6-service add default zramen && s6-service add default tlp && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
 # NVIDIA SELECTION
 if [ \"$choice\" = \"5\" ] || [ \"$choice\" = \"6\" ]; then
-7z x coolrune-dotfiles.7z -o/home/\$USER/ -y && unzip -o coolrune-root.zip -d / && 7z x coolrune-nvidia-patch.7z -o/ -y && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && s6-service add default earlyoom && s6-service add default zramen && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg &&
+    7z x coolrune-dotfiles.7z -o/home/\$USER/ -y && unzip -o coolrune-root.zip -d / && 7z x coolrune-nvidia-patch.7z -o/ -y && s6-service add default apparmor && s6-service add default fail2ban && s6-service add default NetworkManager && s6-service add default dnscrypt-proxy && s6-service add default ufw && s6-service add default cpupower && s6-service add default earlyoom && s6-service add default zramen && rm /etc/s6/adminsv/default/contents.d/connmand && pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk && s6-db-reload && grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
 
 
 # CREATE GAMEMODE GROUP
 if [ \"$choice\" = \"1\" ] || [ \"$choice\" = \"3\" ] || [ \"$choice\" = \"5\" ] || [ \"$choice\" = \"6\" ]; then
-groupadd -f gamemode
-TARGET_USER=\$USER
-if [ \"\$TARGET_USER\" = \"root\" ]; then
-  TARGET_USER=\$(find /home -mindepth 1 -maxdepth 1 -type d -printf \"%f\n\" | head -1)
-fi
-usermod -aG gamemode \"\$TARGET_USER\"
-echo \"Added user \$TARGET_USER to gamemode group\"
-id \"\$TARGET_USER\" | grep -o \"gamemode\" &>/dev/null && echo \"Successfully added to gamemode group\" || echo \"Failed to add to gamemode group\" &&
+    groupadd -f gamemode
+    TARGET_USER=\$USER
+    if [ \"\$TARGET_USER\" = \"root\" ]; then
+        TARGET_USER=\$(find /home -mindepth 1 -maxdepth 1 -type d -printf \"%f\n\" | head -1)
+    fi
+    usermod -aG gamemode \"\$TARGET_USER\"
+    echo \"Added user \$TARGET_USER to gamemode group\"
+    id \"\$TARGET_USER\" | grep -o \"gamemode\" &>/dev/null && echo \"Successfully added to gamemode group\" || echo \"Failed to add to gamemode group\"
 fi
 
 # RESET PERMISSIONS
-chmod -R 755 /home/\$USER && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/\$USER/.var/ && chmod -R 777 /home/\$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 600 /etc/shadow && chmod -R 777 /home/\$USER/.local/ && chmod 755 /home/\$USER/.nvidia-settings-rc &&
+chmod -R 755 /home/\$USER && chmod -R 755 /etc && chmod -R 755 /usr/share/backgrounds && chmod -R 755 /usr/share/icons && chmod -R 755 /usr/share/pictures && chmod -R 755 /usr/share/themes && chmod 644 /etc/udev/udev.conf && chmod -R 777 /home/\$USER/.var/ && chmod -R 777 /home/\$USER/.config && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly && chmod 600 /etc/cron.deny && chmod 644 /etc/issue && chmod 600 /etc/shadow && chmod -R 777 /home/\$USER/.local/ && chmod 755 /home/\$USER/.nvidia-settings-rc
 
 # HARDENING SCRIPT
-cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 027 &&
+cd /CoolRune/Programs/Hardening-Script/ && sh hardening-script.sh && cd / && umask 027
 
 # LAST COMMANDS
 mv /etc/profile{,.old} && grub-install || true && update-grub && rm -rf /home/coolrune-files/ && echo -e \"\e[1mCoolRune has been successfully installed\e[0m\" && reboot
