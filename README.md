@@ -26,10 +26,10 @@
 * [Arch Package Dictionary](https://github.com/Michael-Sebero/Arch-Package-Dictionary)
 * [Archivist Tools](https://github.com/Michael-Sebero/Archivist-Tools)
 * [Audio Frequency Tools](https://github.com/Michael-Sebero/Audio-Frequency-Tools)
+* [Data Recovery Tools](https://github.com/Michael-Sebero/Data-Recovery-Tools)
 * [Document Tools](https://github.com/Michael-Sebero/Document-Tools)
 * [Fix Arch Linux](https://github.com/Michael-Sebero/Fix-Arch-Linux)
 * [Media Tools](https://github.com/Michael-Sebero/Media-Tools)
-* [Productivity Mode](https://github.com/Michael-Sebero/Productivity-Mode)
 
 ### **Additional Features**
 * A comprehensive [manual](https://raw.githubusercontent.com/Michael-Sebero/CoolRune/main/files/coolrune-manual/Manual).
@@ -38,18 +38,19 @@
 * Low latency [PipeWire](https://github.com/PipeWire/pipewire) audio processing.
 * [ALHP](https://wiki.archlinux.org/title/Unofficial_user_repositories#ALHP), [CachyOS](https://wiki.cachyos.org/features/optimized_repos/), [Chaotic-AUR](https://github.com/chaotic-aur/packages), and [Flatpak](https://flatpak.org/) repositories.
 * Steam [Proton GE](https://github.com/GloriousEggroll/proton-ge-custom) prefix.
-* Optional [Stateless Design](https://www.clearlinux.org/clear-linux-documentation/guides/clear/stateless.html) mode.
 * [ZFS](https://github.com/openzfs/zfs) compatiblity.
 * Optional pre-configured PipeWire audio profiles.
 * Custom Windows-like XFCE theme.
 * [Booster](https://github.com/anatol/booster) (mkinitcpio replacement).
-* Battery life optimizations for laptops via [TLP](https://github.com/linrunner/TLP)
+* Battery life optimizations for laptops via [TLP](https://github.com/linrunner/TLP).
+* [Mimalloc](https://github.com/microsoft/mimalloc) (high-performance memory allocator).
+* Uses ZRAM and tmpfs to speed up temporary directories by compressing RAM and reducing disk I/O.
 
 ## Performance & Security Expectations
 * **10-25%** FPS boost in gaming.
 * **15-40%** faster system responsiveness.
 * **20-50%** improved network efficiency.
-* A Lynis system hardening rating of **80**.
+* A Lynis system hardening rating of **80** on desktop and **78** for laptop.
 
 <p align="center">
 	<img src="https://i.postimg.cc/C53HDLTZ/ksnip-20240224-100057.png" />

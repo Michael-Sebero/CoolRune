@@ -53,8 +53,11 @@
 
  - The [ steal ] command installs packages from the default repo, AUR and Flatpak. It also can download videos.
  
- - On laptops when reaching below 75% battery life will allow charging the battery up to 79%. The laptop will switch to AC mode and stop using the 
-   battery. In this threshold you'll experience increased system performance. 
+ - On laptops when reaching below 75% battery life will allow charging the battery up to 79%. 
+ 
+ - Adjust your screen brightness to 60% to conserve battery life.
+ 
+ - When connecting a charger to a laptop system performance will increase.
 
  - Change shaders to Vulkan in Steam settings and enable Steam Play for Linux compatibility.
 
@@ -337,16 +340,6 @@
  
 ..................................................................................................................................................
 
- / PRIVATEGPT /
-
- . privategpt
- 
- - This runs PrivateGPT if installed from [ optional ]
- 
- - After running the program open up your browser and enter [ localhost:8001 ]
-
-..................................................................................................................................................
-
  / FORMAT TO XFS /
  
  . format-to-xfs
@@ -395,19 +388,21 @@
 
 ..................................................................................................................................................
 
- / STATELESS DESIGN MODE /
-
- . sudo sd
- 
- - This command implements stateless design.
- 
-..................................................................................................................................................
-
  / FIND FAST MIRRORLISTS /
  
  . fastlist
  
  - This command disables slow pacman mirrorlists and enables fast ones according to your location.
+ 
+.................................................................................................................................................. 
+
+ / DATA RECOVERY TOOLS /
+ 
+ . data-recovery-tools
+ 
+ - This command attempts to recover data from damaged devices and corrupted files.
+
+..................................................................................................................................................
 
 ==================================================================================================================================================
 
@@ -484,20 +479,6 @@
  
 ..................................................................................................................................................
 
- > POLYMC ( FOSS Minecraft Launcher )
- 
- - https://github.com/PolyMC/PolyMC/releases
- 
-..................................................................................................................................................
-
- > MINETEST ( FOSS Minecraft-like Game )
-
- . steal minetest
-
- - Check out Mineclone 2 as well.
-
-..................................................................................................................................................
-
  > NEXUS MODS APP ( Linux Native Mod Installer )
  
  - https://github.com/Nexus-Mods/NexusMods.App/releases
@@ -510,9 +491,9 @@
  
 ..................................................................................................................................................
 
- > CHATBOX ( Multi LLM Interface )
+ > ANYTHING LLM ( Multi LLM Interface )
 
- . steal chatbox-ce-bin
+ . https://docs.anythingllm.com/installation-desktop/linux#install-using-the-installer-script
 
 ..................................................................................................................................................
 
