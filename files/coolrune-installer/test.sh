@@ -120,7 +120,7 @@ pacman -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudi
 # BASE REPO PACKAGES INSTALL
 retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode fail2ban fail2ban-s6 okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter lib32-mesa lib32-mesa-utils appimagelauncher opendoas mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread ccache earlyoom earlyoom-s6 python-pypdf2 dialog zramen zramen-s6 zfs-utils tree sof-firmware booster bottles paru &&
 
-# AMD DESKTOP CHOICE
+# AMD-DESKTOP CHOICE
 if [ "$choice" = "1" ]; then
 retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs vulkan-icd-loader lib32-vulkan-icd-loader lib32-vulkan-radeon protonup-git 
 fi
