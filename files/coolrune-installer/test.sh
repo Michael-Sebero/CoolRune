@@ -1,27 +1,25 @@
 #!/bin/bash
 
+# Switch to root user first
 su -c "
-
 ### COOLRUNE CHOICE SELECTION ###
-echo -e "\e[1mSelect a CoolRune Variant\e[0m"
-echo "1. AMD-DESKTOP"
-echo "2. AMD-LAPTOP"
-echo "3. INTEL-DESKTOP"
-echo "4. INTEL-LAPTOP"
-echo "5. NVIDIA-OPENSOURCE-DESKTOP"
-echo "6. NVIDIA-PROPRIETARY-DESKTOP"
+echo -e \"\e[1mSelect a CoolRune Variant\e[0m\"
+echo \"1. AMD-DESKTOP\"
+echo \"2. AMD-LAPTOP\"
+echo \"3. INTEL-DESKTOP\"
+echo \"4. INTEL-LAPTOP\"
+echo \"5. NVIDIA-OPENSOURCE-DESKTOP\"
+echo \"6. NVIDIA-PROPRIETARY-DESKTOP\"
 
-read -p "Enter your choice (1-6): " choice
+read -p \"Enter your choice (1-6): \" CHOICE
 
 # Validate choice
-if [[ ! "$choice" =~ ^[1-6]$ ]]; then
-    echo -e "\e[1;31mInvalid choice. Please run the script again and select 1-6.\e[0m"
+if [[ ! \"\$CHOICE\" =~ ^[1-6]$ ]]; then
+    echo -e \"\e[1;31mInvalid choice. Please run the script again and select 1-6.\e[0m\"
     exit 1
 fi
 
-# Pass the choice variable to the su command
-
-CHOICE='$choice'
+echo -e \"\e[1mYou selected choice: \$CHOICE\e[0m\"
 
 ### RETRY LOGIC ###
 
@@ -188,15 +186,26 @@ echo -e \"\e[1mInstalling Flatpak packages...\e[0m\"
 flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna org.jdownloader.JDownloader
 
-# INSTALL PROTON-GE
-echo -e \"\e[1mInstalling Proton-GE...\e[0m\"
-if pacman -Q protonup-git &>/dev/null; then
-    su - \"\$USER\" -c \"protonup -d /home/\$USER/.local/share/Steam/compatibilitytools.d/ && protonup -y\"
+# INSTALL PROTON-GE (only for desktop variants that have protonup-git)
+if [ \"\$CHOICE\" = \"1\" ] || [ \"\$CHOICE\" = \"3\" ] || [ \"\$CHOICE\" = \"5\" ] || [ \"\$CHOICE\" = \"6\" ]; then
+    echo -e \"\e[1mInstalling Proton-GE...\e[0m\"
+    if pacman -Q protonup-git &>/dev/null; then
+        # Find the actual user (not root)
+        ACTUAL_USER=\$(who | awk 'NR==1{print \$1}')
+        if [ -z \"\$ACTUAL_USER\" ]; then
+            ACTUAL_USER=\$(find /home -mindepth 1 -maxdepth 1 -type d -printf \"%f\n\" | head -1)
+        fi
+        if [ -n \"\$ACTUAL_USER\" ] && [ \"\$ACTUAL_USER\" != \"root\" ]; then
+            su - \"\$ACTUAL_USER\" -c \"protonup -d /home/\$ACTUAL_USER/.local/share/Steam/compatibilitytools.d/ && protonup -y\"
+        fi
+    fi
 fi
 
 ### COOLRUNE CONFIGURATION INSTALLATION ###
 
-# AMD/INTEL DESKTOP SELECTION
+echo -e \"\e[1mConfiguring system based on choice: \$CHOICE\e[0m\"
+
+# AMD/INTEL DESKTOP SELECTION (choices 1 and 3)
 if [ \"\$CHOICE\" = \"1\" ] || [ \"\$CHOICE\" = \"3\" ]; then
     echo -e \"\e[1mConfiguring desktop environment...\e[0m\"
     7z x coolrune-dotfiles.7z -o/home/\$USER/ -y
@@ -215,7 +224,7 @@ if [ \"\$CHOICE\" = \"1\" ] || [ \"\$CHOICE\" = \"3\" ]; then
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
-# LAPTOP SELECTION
+# LAPTOP SELECTION (choices 2 and 4)
 if [ \"\$CHOICE\" = \"2\" ] || [ \"\$CHOICE\" = \"4\" ]; then
     echo -e \"\e[1mConfiguring laptop environment...\e[0m\"
     7z x coolrune-dotfiles-laptop.7z -o/home/\$USER/ -y
@@ -235,7 +244,7 @@ if [ \"\$CHOICE\" = \"2\" ] || [ \"\$CHOICE\" = \"4\" ]; then
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
-# NVIDIA SELECTION
+# NVIDIA SELECTION (choices 5 and 6)
 if [ \"\$CHOICE\" = \"5\" ] || [ \"\$CHOICE\" = \"6\" ]; then
     echo -e \"\e[1mConfiguring NVIDIA environment...\e[0m\"
     7z x coolrune-dotfiles.7z -o/home/\$USER/ -y
@@ -255,42 +264,55 @@ if [ \"\$CHOICE\" = \"5\" ] || [ \"\$CHOICE\" = \"6\" ]; then
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
-# CREATE GAMEMODE GROUP (Desktop variants only)
+# CREATE GAMEMODE GROUP (Desktop variants only - choices 1, 3, 5, 6)
 if [ \"\$CHOICE\" = \"1\" ] || [ \"\$CHOICE\" = \"3\" ] || [ \"\$CHOICE\" = \"5\" ] || [ \"\$CHOICE\" = \"6\" ]; then
-    echo -e \"\e[1mSetting up gamemode...\e[0m\"
+    echo -e \"\e[1mSetting up gamemode for desktop variant...\e[0m\"
     groupadd -f gamemode
-    TARGET_USER=\$USER
-    if [ \"\$TARGET_USER\" = \"root\" ]; then
+    # Find the actual user (not root)
+    TARGET_USER=\$(who | awk 'NR==1{print \$1}')
+    if [ -z \"\$TARGET_USER\" ]; then
         TARGET_USER=\$(find /home -mindepth 1 -maxdepth 1 -type d -printf \"%f\n\" | head -1)
     fi
-    usermod -aG gamemode \"\$TARGET_USER\"
-    echo \"Added user \$TARGET_USER to gamemode group\"
-    if id \"\$TARGET_USER\" | grep -o \"gamemode\" &>/dev/null; then
-        echo \"Successfully added to gamemode group\"
-    else
-        echo \"Failed to add to gamemode group\"
+    if [ -n \"\$TARGET_USER\" ] && [ \"\$TARGET_USER\" != \"root\" ]; then
+        usermod -aG gamemode \"\$TARGET_USER\"
+        echo \"Added user \$TARGET_USER to gamemode group\"
+        if id \"\$TARGET_USER\" | grep -o \"gamemode\" &>/dev/null; then
+            echo \"Successfully added to gamemode group\"
+        else
+            echo \"Failed to add to gamemode group\"
+        fi
     fi
 fi
 
 # RESET PERMISSIONS
 echo -e \"\e[1mSetting permissions...\e[0m\"
-chmod -R 755 /home/\$USER
+# Find the actual user directory
+ACTUAL_USER=\$(who | awk 'NR==1{print \$1}')
+if [ -z \"\$ACTUAL_USER\" ]; then
+    ACTUAL_USER=\$(find /home -mindepth 1 -maxdepth 1 -type d -printf \"%f\n\" | head -1)
+fi
+
+if [ -n \"\$ACTUAL_USER\" ] && [ \"\$ACTUAL_USER\" != \"root\" ]; then
+    USER_HOME=\"/home/\$ACTUAL_USER\"
+    chmod -R 755 \"\$USER_HOME\"
+    chmod -R 777 \"\$USER_HOME/.var/\" 2>/dev/null || true
+    chmod -R 777 \"\$USER_HOME/.config\" 2>/dev/null || true
+    chmod -R 777 \"\$USER_HOME/.local/\" 2>/dev/null || true
+    if [ -f \"\$USER_HOME/.nvidia-settings-rc\" ]; then
+        chmod 755 \"\$USER_HOME/.nvidia-settings-rc\"
+    fi
+fi
+
 chmod -R 755 /etc
 chmod -R 755 /usr/share/backgrounds
 chmod -R 755 /usr/share/icons
 chmod -R 755 /usr/share/pictures
 chmod -R 755 /usr/share/themes
 chmod 644 /etc/udev/udev.conf
-chmod -R 777 /home/\$USER/.var/
-chmod -R 777 /home/\$USER/.config
 chmod 700 /etc/cron.d /etc/cron.daily /etc/cron.hourly /etc/cron.weekly /etc/cron.monthly
 chmod 600 /etc/cron.deny
 chmod 644 /etc/issue
 chmod 600 /etc/shadow
-chmod -R 777 /home/\$USER/.local/
-if [ -f /home/\$USER/.nvidia-settings-rc ]; then
-    chmod 755 /home/\$USER/.nvidia-settings-rc
-fi
 
 # HARDENING SCRIPT
 echo -e \"\e[1mRunning hardening script...\e[0m\"
@@ -307,7 +329,8 @@ mv /etc/profile /etc/profile.old 2>/dev/null || true
 grub-install || true
 update-grub
 rm -rf /home/coolrune-files/
-echo -e \"\e[1mCoolRune has been successfully installed\e[0m\"
+echo -e \"\e[1mCoolRune installation completed successfully!\e[0m\"
+echo -e \"\e[1mConfiguration applied for variant: \$CHOICE\e[0m\"
 echo -e \"\e[1mSystem will reboot in 5 seconds...\e[0m\"
 sleep 5
 reboot
