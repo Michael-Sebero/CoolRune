@@ -184,10 +184,8 @@ TARGET_USER=$USER
 if [ "$TARGET_USER" = "root" ]; then
   TARGET_USER=$(find /home -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | head -1)
 fi
-# Add the user to gamemode group
 usermod -aG gamemode "$TARGET_USER"
 echo "Added user $TARGET_USER to gamemode group"
-# Verify the groups
 id "$TARGET_USER" | grep -o "gamemode" &>/dev/null && echo "Successfully added to gamemode group" || echo "Failed to add to gamemode group" &&
 fi
 
