@@ -1,5 +1,7 @@
 #!/bin/bash
 
+su -c "
+
 ### COOLRUNE CHOICE SELECTION ###
 echo -e "\e[1mSelect a CoolRune Variant\e[0m"
 echo "1. AMD-DESKTOP"
@@ -18,7 +20,7 @@ if [[ ! "$choice" =~ ^[1-6]$ ]]; then
 fi
 
 # Pass the choice variable to the su command
-su -c "
+
 CHOICE='$choice'
 
 ### RETRY LOGIC ###
