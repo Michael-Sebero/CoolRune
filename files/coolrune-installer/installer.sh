@@ -128,7 +128,7 @@ retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-g
 
 # AMD-DESKTOP CHOICE
 if [ "$choice" = "1" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git lib32-mesa vkbasalt lib32-vkbasalt
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt
 fi
 
 # AMD-LAPTOP CHOICE
@@ -138,7 +138,7 @@ fi
 
 # INTEL-DESKTOP CHOICE
 if [ "$choice" = "3" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git lib32-mesa vkbasalt lib32-vkbasalt
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt
 fi
 
 # INTEL-LAPTOP CHOICE
