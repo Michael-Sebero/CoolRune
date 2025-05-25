@@ -128,12 +128,12 @@ retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-g
 
 # AMD/INTEL-DESKTOP CHOICE
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
-  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon mesa && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt mesa-tkg-git lib32-mesa-tkg-git
+  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon vulkan-swrast mesa && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt mesa-tkg-git lib32-mesa-tkg-git
 fi
 
 # AMD/INTEL-LAPTOP CHOICE
 if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
-  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon mesa && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 mesa-tkg-git lib32-mesa-tkg-git
+  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon vulkan-swrast mesa && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 mesa-tkg-git lib32-mesa-tkg-git
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
