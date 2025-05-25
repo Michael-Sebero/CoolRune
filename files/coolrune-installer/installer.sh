@@ -138,7 +138,7 @@ fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
 if [ "$choice" = "5" ]; then
-  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon vulkan-swrast mesa lib32-mesa-git && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings
+  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon vulkan-swrast mesa lib32-mesa-git && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings mesa-tkg-git lib32-mesa-tkg-git
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
