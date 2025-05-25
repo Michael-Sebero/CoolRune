@@ -133,7 +133,7 @@ fi
 
 # AMD-LAPTOP CHOICE
 if [ "$choice" = "2" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 lib32-mesa
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6
 fi
 
 # INTEL-DESKTOP CHOICE
@@ -143,7 +143,7 @@ fi
 
 # INTEL-LAPTOP CHOICE
 if [ "$choice" = "4" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 lib32-mesa
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
