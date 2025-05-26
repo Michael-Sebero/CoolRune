@@ -246,10 +246,8 @@ chmod -R 777 /home/$USER/.local/
 chmod 755 /home/$USER/.nvidia-settings-rc
 
 # HARDENING SCRIPT
-cd /CoolRune/Programs/Hardening-Script/
-sh hardening-script.sh
+sh /CoolRune/Programs/Hardening-Script/hardening-script.sh && umask 027
 cd /
-umask 027
 
 # LAST COMMANDS
 mv /etc/profile{,.old}
