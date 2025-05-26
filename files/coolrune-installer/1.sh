@@ -168,31 +168,6 @@ main() {
     create_backup
     
     # ========================================================
-    # KERNEL PARAMETERS (INFORMATION ONLY)
-    # ========================================================
-    print_section "Kernel Parameter Recommendations (No Changes Made)"
-    
-    log_message "SKIPPED: Kernel parameter modifications (sysctl) as requested"
-    log_message "The following sysctl parameters would improve security and performance:"
-    echo ""
-    echo "Network Performance Optimization:"
-    echo "  net.core.rmem_default = 262144"
-    echo "  net.core.rmem_max = 16777216"
-    echo "  net.core.wmem_default = 262144"
-    echo "  net.core.wmem_max = 16777216"
-    echo "  net.core.netdev_max_backlog = 5000"
-    echo "  net.core.somaxconn = 1024"
-    echo ""
-    echo "Security Settings:"
-    echo "  net.ipv4.conf.all.rp_filter = 1"
-    echo "  net.ipv4.tcp_syncookies = 1"
-    echo "  net.ipv4.icmp_echo_ignore_broadcasts = 1"
-    echo "  kernel.dmesg_restrict = 1"
-    echo "  kernel.kptr_restrict = 2"
-    echo ""
-    log_message "To apply these manually, add them to /etc/sysctl.conf and run 'sysctl -p'"
-    
-    # ========================================================
     # ENHANCED FILE PERMISSIONS
     # ========================================================
     print_section "Setting secure file permissions"
@@ -372,9 +347,6 @@ EOF
     echo "=================================================================="
     echo "System hardening completed successfully at $(date)"
     echo ""
-    echo "IMPORTANT: Kernel parameters (sysctl) were NOT modified as requested."
-    echo "For enhanced security and performance, consider manually applying the"
-    echo "recommended sysctl settings shown above."
     echo ""
     echo "Performance optimizations applied:"
     echo "- Connection limit calculations: $CONN_LIMIT"
