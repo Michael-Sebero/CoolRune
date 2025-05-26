@@ -49,7 +49,7 @@
 * **10-25%** FPS boost in gaming.
 * **15-40%** faster system responsiveness.
 * **20-50%** improved network efficiency.
-* A Lynis system hardening rating of **80**.
+* A Lynis system hardening rating of **80** on desktop and **78** for laptop.
 
 <p align="center">
 	<img src="https://i.postimg.cc/C53HDLTZ/ksnip-20240224-100057.png" />
