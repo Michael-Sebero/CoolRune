@@ -104,10 +104,10 @@ pacman -Sy --noconfirm --needed p7zip git
 mkdir /home/coolrune-files/
 git clone https://github.com/Michael-Sebero/CoolRune /home/coolrune-files/
 cd /home/coolrune-files/files/coolrune-packages/
-7z e coolrune-pacman-1.7z -o/etc/ -y
+unzip -o coolrune-pacman-1.zip -d /
 pacman -Sy --noconfirm artix-archlinux-support pacman-contrib artix-keyring
 pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-7z e coolrune-pacman-2.7z -o/etc/ -y
+unzip -o coolrune-pacman-2.zip -d /
 chmod 755 /etc/pacman.conf
 pacman-key --populate archlinux artix
 pacman -Sy --noconfirm alhp-keyring
