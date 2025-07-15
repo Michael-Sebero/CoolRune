@@ -111,7 +111,7 @@ pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring
 chmod 755 /etc/pacman.conf
 pacman-key --populate archlinux artix
 pacman -Sy --noconfirm alhp-keyring
-rm -rf /usr/lib/firmware/nvidia/ad10{3,4,5,6,7}|| true || true
+rm -rf /usr/lib/firmware/nvidia/ad10{3,4,5,6,7} || true
 pacman -Rdd --noconfirm mesa vulkan-intel vulkan-radeon vulkan-swrast || true
 
 # FIND QUICKEST MIRRORLIST
