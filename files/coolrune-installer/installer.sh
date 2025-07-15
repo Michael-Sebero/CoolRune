@@ -237,9 +237,7 @@ cd /home/coolrune-files/files/coolrune-packages/
 retry_pacman 5 pacman -Sy --noconfirm --needed --overwrite='*' artix-archlinux-support pacman-contrib artix-keyring
 
 # Install chaotic AUR packages
-retry_pacman 3 pacman -U --noconfirm --overwrite='*' \
-  'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' \
-  'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+retry_pacman 3 "pacman -U --noconfirm --overwrite='*' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'"
 
 # Extract additional configuration
 7z e coolrune-pacman-2.7z -o/etc/ -y 2>/dev/null || unzip -o coolrune-pacman-2.zip -d /etc/ 2>/dev/null || true
