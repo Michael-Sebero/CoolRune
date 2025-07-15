@@ -1,7 +1,7 @@
 #!/bin/bash
 
 su -c '
-### RETRY LOGIC ###
+### ENHANCED RETRY LOGIC WITH CONFLICT RESOLUTION ###
 
 retry_pacman() {
   local max_attempts="$1"
@@ -13,7 +13,7 @@ retry_pacman() {
   do
     if (( attempt_num == max_attempts ))
     then
-      echo "Attempt $attempt_num failed! Trying to continue with available packages..." >&2
+      echo "Attempt $attempt_num failed! Trying to resolve conflicts..." >&2
       
       # Extract package names from the original command
       local pkg_list=""
@@ -30,20 +30,41 @@ retry_pacman() {
         ignore_flag=$(echo "$command" | grep -o -- "--ignore=[^ ]*")
       fi
       
-      # Get list of unavailable packages
-      echo "Testing package availability, please wait..." >&2
+      # Get list of unavailable packages and resolve conflicts
+      echo "Testing package availability and resolving conflicts, please wait..." >&2
       local all_pkgs=($pkg_list)
       local available_pkgs=""
       local failed_pkgs=""
+      local conflict_resolved_pkgs=""
       
       for pkg in "${all_pkgs[@]}"; do
         if [ -z "$pkg" ]; then continue; fi
+        
+        # Check if package is available
         if pacman -Sp "$pkg" &>/dev/null; then
-          available_pkgs="$available_pkgs $pkg"
+          # Check for conflicts with already installed packages
+          local conflicts=$(pacman -T "$pkg" 2>&1 | grep "conflict" || true)
+          if [ -n "$conflicts" ]; then
+            echo "Resolving conflict for package: $pkg" >&2
+            # Try to resolve by removing conflicting packages first
+            local conflicting_pkgs=$(echo "$conflicts" | grep -o "[a-zA-Z0-9][a-zA-Z0-9._+-]*" | tail -n +2)
+            for conflict_pkg in $conflicting_pkgs; do
+              if pacman -Q "$conflict_pkg" &>/dev/null; then
+                echo "Removing conflicting package: $conflict_pkg" >&2
+                pacman -Rdd --noconfirm "$conflict_pkg" &>/dev/null || true
+              fi
+            done
+            conflict_resolved_pkgs="$conflict_resolved_pkgs $pkg"
+          else
+            available_pkgs="$available_pkgs $pkg"
+          fi
         else
           failed_pkgs="$failed_pkgs $pkg"
         fi
       done
+      
+      # Combine available and conflict-resolved packages
+      available_pkgs="$available_pkgs $conflict_resolved_pkgs"
       
       # Trim whitespace
       available_pkgs=$(echo "$available_pkgs" | sed "s/^[[:space:]]*//;s/[[:space:]]*$//")
@@ -54,8 +75,8 @@ retry_pacman() {
       fi
       
       if [ -n "$available_pkgs" ]; then
-        # Reconstruct the command with available packages
-        local new_cmd="pacman -S --noconfirm --needed --overwrite='*' $ignore_flag $available_pkgs"
+        # Reconstruct the command with available packages and add dependency resolution flags
+        local new_cmd="pacman -S --noconfirm --needed --overwrite='*' --ask=4 $ignore_flag $available_pkgs"
         echo "Executing modified command: $new_cmd" >&2
         
         # Execute the modified command
@@ -70,6 +91,79 @@ retry_pacman() {
       attempt_num=$(( attempt_num + 1 ))
     fi
   done
+}
+
+### DEPENDENCY RESOLUTION FUNCTION ###
+
+resolve_dependencies() {
+  echo "Resolving dependency conflicts..." >&2
+  
+  # Update package database first
+  pacman -Sy --noconfirm
+  
+  # Remove known conflicting packages before major installations
+  local conflicting_packages=(
+    "lib32-mesa"
+    "mesa" 
+    "libxml2"
+    "poppler"
+    "poppler-glib"
+    "vulkan-intel"
+    "vulkan-radeon"
+    "vulkan-swrast"
+  )
+  
+  for pkg in "${conflicting_packages[@]}"; do
+    if pacman -Q "$pkg" &>/dev/null; then
+      echo "Removing potentially conflicting package: $pkg" >&2
+      pacman -Rdd --noconfirm "$pkg" &>/dev/null || true
+    fi
+  done
+  
+  # Force refresh of package database
+  pacman -Syy --noconfirm
+}
+
+### PACKAGE CONFLICT RESOLUTION ###
+
+handle_mesa_conflicts() {
+  echo "Handling Mesa package conflicts..." >&2
+  
+  # Remove all mesa-related packages first
+  pacman -Rdd --noconfirm mesa lib32-mesa vulkan-mesa-layers lib32-vulkan-mesa-layers mesa-utils lib32-mesa-utils vulkan-intel vulkan-radeon vulkan-swrast &>/dev/null || true
+  
+  # Clear package cache for mesa packages
+  pacman -Sc --noconfirm
+  
+  # Force database refresh
+  pacman -Syy --noconfirm
+}
+
+handle_libxml2_conflicts() {
+  echo "Handling libxml2 conflicts..." >&2
+  
+  # Get packages that depend on libxml2
+  local dependent_packages=$(pacman -Qi libxml2 2>/dev/null | grep "Required By" | cut -d: -f2 | tr -d ' ')
+  
+  if [ -n "$dependent_packages" ]; then
+    echo "Found packages depending on libxml2: $dependent_packages" >&2
+    # Remove and reinstall dependent packages
+    for dep_pkg in $dependent_packages; do
+      if [ "$dep_pkg" != "None" ]; then
+        pacman -Rdd --noconfirm "$dep_pkg" &>/dev/null || true
+      fi
+    done
+  fi
+  
+  # Remove libxml2
+  pacman -Rdd --noconfirm libxml2 &>/dev/null || true
+}
+
+handle_poppler_conflicts() {
+  echo "Handling poppler conflicts..." >&2
+  
+  # Remove poppler and related packages
+  pacman -Rdd --noconfirm poppler poppler-glib poppler-qt5 poppler-qt6 &>/dev/null || true
 }
 
 ### COOLRUNE CHOICE SELECTION ###
@@ -117,34 +211,74 @@ rm -rf /usr/lib/firmware/nvidia/ad10{3,4,5,6,7} || true
 echo -e "\e[1mFinding quickest mirrorlist, please wait...\e[0m"
 sh -c "rankmirrors -v -n 5 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorlist.new && mv /etc/pacman.d/mirrorlist.new /etc/pacman.d/mirrorlist && chmod 644 /etc/pacman.d/mirrorlist"
 
+# RESOLVE CONFLICTS BEFORE MAJOR UPDATES
+resolve_dependencies
+
 # FIRST COMMANDS AND COOLRUNE IMPORT P2
-retry_pacman 5 pacman -Syyu --noconfirm --needed --overwrite='*'
+retry_pacman 5 pacman -Syyu --noconfirm --needed --overwrite='*' --ask=4
 mv /home/coolrune-files/files/coolrune-manual/Manual /home/$USER/Desktop/
 
 # REPO PACKAGES REMOVE
 pacman -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv xfce4-dict xfce4-weather-plugin
 
+# HANDLE SPECIFIC CONFLICTS BEFORE PACKAGE INSTALLATION
+handle_mesa_conflicts
+handle_libxml2_conflicts
+handle_poppler_conflicts
+
 # BASE REPO PACKAGES INSTALL
-retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread ccache earlyoom earlyoom-s6 python-pypdf2 dialog zramen zramen-s6 zfs-utils tree sof-firmware booster bottles paru
+retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ask=4 --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread ccache earlyoom earlyoom-s6 python-pypdf2 dialog zramen zramen-s6 zfs-utils tree sof-firmware booster bottles paru
 
 # AMD/INTEL-DESKTOP CHOICE
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
-  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon vulkan-swrast mesa lib32-mesa-git xfce4-power-manager xfce4-battery-plugin && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
+  # Remove conflicting packages first
+  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon vulkan-swrast mesa lib32-mesa-git xfce4-power-manager xfce4-battery-plugin || true
+  
+  # Clear cache and refresh
+  pacman -Sc --noconfirm
+  pacman -Syy --noconfirm
+  
+  # Install packages with conflict resolution
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ask=4 linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
 fi
 
 # AMD/INTEL-LAPTOP CHOICE
 if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
-  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon vulkan-swrast mesa lib32-mesa-git && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 mesa-tkg-git lib32-mesa-tkg-git
+  # Remove conflicting packages first
+  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon vulkan-swrast mesa lib32-mesa-git || true
+  
+  # Clear cache and refresh
+  pacman -Sc --noconfirm
+  pacman -Syy --noconfirm
+  
+  # Install packages with conflict resolution
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ask=4 linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 mesa-tkg-git lib32-mesa-tkg-git
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
 if [ "$choice" = "5" ]; then
-  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon vulkan-swrast mesa lib32-mesa-git xfce4-power-manager xfce4-battery-plugin && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
+  # Remove conflicting packages first
+  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon vulkan-swrast mesa lib32-mesa-git xfce4-power-manager xfce4-battery-plugin || true
+  
+  # Clear cache and refresh
+  pacman -Sc --noconfirm
+  pacman -Syy --noconfirm
+  
+  # Install packages with conflict resolution
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ask=4 linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
 if [ "$choice" = "6" ]; then
-  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon xfce4-power-manager xfce4-battery-plugin && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6
+  # Remove conflicting packages first
+  pacman -Rdd --noconfirm vulkan-intel vulkan-radeon xfce4-power-manager xfce4-battery-plugin || true
+  
+  # Clear cache and refresh
+  pacman -Sc --noconfirm
+  pacman -Syy --noconfirm
+  
+  # Install packages with conflict resolution
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ask=4 linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6
 fi
 
 # FLATPAK PACKAGES
@@ -245,6 +379,10 @@ chmod 644 /etc/issue
 chmod 600 /etc/shadow
 chmod -R 777 /home/$USER/.local/
 chmod 755 /home/$USER/.nvidia-settings-rc
+
+# FINAL DEPENDENCY CLEANUP
+echo "Performing final dependency cleanup..." >&2
+pacman -Syu --noconfirm --ask=4 || true
 
 # HARDENING SCRIPT
 sh /CoolRune/Programs/Hardening-Script/hardening-script.sh && umask 027
