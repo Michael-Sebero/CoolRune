@@ -76,7 +76,7 @@ retry_pacman() {
       
       if [ -n "$available_pkgs" ]; then
         # Reconstruct the command with available packages and add dependency resolution flags
-        local new_cmd="pacman -S --noconfirm --needed --overwrite='*' --ask=4 $ignore_flag $available_pkgs"
+        local new_cmd="pacman -S --noconfirm --needed --overwrite='\''*'\'' --ask=4 $ignore_flag $available_pkgs"
         echo "Executing modified command: $new_cmd" >&2
         
         # Execute the modified command
@@ -143,7 +143,7 @@ handle_libxml2_conflicts() {
   echo "Handling libxml2 conflicts..." >&2
   
   # Get packages that depend on libxml2
-  local dependent_packages=$(pacman -Qi libxml2 2>/dev/null | grep "Required By" | cut -d: -f2 | tr -d ' ')
+  local dependent_packages=$(pacman -Qi libxml2 2>/dev/null | grep "Required By" | cut -d: -f2 | tr -d " ")
   
   if [ -n "$dependent_packages" ]; then
     echo "Found packages depending on libxml2: $dependent_packages" >&2
@@ -200,7 +200,7 @@ git clone https://github.com/Michael-Sebero/CoolRune /home/coolrune-files/
 cd /home/coolrune-files/files/coolrune-packages/
 7z e coolrune-pacman-1.7z -o/etc/ -y
 pacman -Sy --noconfirm artix-archlinux-support pacman-contrib artix-keyring
-pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+pacman -U --noconfirm '\''https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'\'' '\''https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'\''
 7z e coolrune-pacman-2.7z -o/etc/ -y
 chmod 755 /etc/pacman.conf
 pacman-key --populate archlinux artix
@@ -215,7 +215,7 @@ sh -c "rankmirrors -v -n 5 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorl
 resolve_dependencies
 
 # FIRST COMMANDS AND COOLRUNE IMPORT P2
-retry_pacman 5 pacman -Syyu --noconfirm --needed --overwrite='*' --ask=4
+retry_pacman 5 pacman -Syyu --noconfirm --needed --overwrite='\''*'\'' --ask=4
 mv /home/coolrune-files/files/coolrune-manual/Manual /home/$USER/Desktop/
 
 # REPO PACKAGES REMOVE
@@ -227,7 +227,7 @@ handle_libxml2_conflicts
 handle_poppler_conflicts
 
 # BASE REPO PACKAGES INSTALL
-retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ask=4 --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread ccache earlyoom earlyoom-s6 python-pypdf2 dialog zramen zramen-s6 zfs-utils tree sof-firmware booster bottles paru
+retry_pacman 5 pacman -S --noconfirm --needed --overwrite='\''*'\'' --ask=4 --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread ccache earlyoom earlyoom-s6 python-pypdf2 dialog zramen zramen-s6 zfs-utils tree sof-firmware booster bottles paru
 
 # AMD/INTEL-DESKTOP CHOICE
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
@@ -239,7 +239,7 @@ if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
   pacman -Syy --noconfirm
   
   # Install packages with conflict resolution
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ask=4 linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='\''*'\'' --ask=4 linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
 fi
 
 # AMD/INTEL-LAPTOP CHOICE
@@ -252,7 +252,7 @@ if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
   pacman -Syy --noconfirm
   
   # Install packages with conflict resolution
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ask=4 linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 mesa-tkg-git lib32-mesa-tkg-git
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='\''*'\'' --ask=4 linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 mesa-tkg-git lib32-mesa-tkg-git
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
@@ -265,7 +265,7 @@ if [ "$choice" = "5" ]; then
   pacman -Syy --noconfirm
   
   # Install packages with conflict resolution
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ask=4 linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='\''*'\'' --ask=4 linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
@@ -278,7 +278,7 @@ if [ "$choice" = "6" ]; then
   pacman -Syy --noconfirm
   
   # Install packages with conflict resolution
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ask=4 linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6
+  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='\''*'\'' --ask=4 linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6
 fi
 
 # FLATPAK PACKAGES
