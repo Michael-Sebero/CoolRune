@@ -106,8 +106,7 @@ install_deferred_packages() {
     echo "Attempting to install previously deferred packages..." >&2
     local deferred_pkgs=$(cat /tmp/deferred_packages.txt | tr '\n' ' ')
     if [ -n "$deferred_pkgs" ]; then
-      # Clear conflicts again
-      pacman -Rdd --noconfirm lib32-mesa mesa libxml2 poppler poppler-glib vulkan-intel vulkan-radeon vulkan-swrast 2>/dev/null || true
+      # Update package databases
       pacman -Sy --noconfirm
       
       # Try installing deferred packages one by one
@@ -131,9 +130,6 @@ safe_system_upgrade() {
   
   # Update package databases
   pacman -Sy --noconfirm
-  
-  # Pre-emptively remove known problematic packages
-  pacman -Rdd --noconfirm lib32-mesa mesa libxml2 poppler poppler-glib vulkan-intel vulkan-radeon vulkan-swrast 2>/dev/null || true
   
   # Perform upgrade with conflict resolution
   pacman -Syu --noconfirm --overwrite='*' 2>/dev/null || {
@@ -193,6 +189,8 @@ echo -e "\e[1mFinding quickest mirrorlist, please wait...\e[0m"
 sh -c "rankmirrors -v -n 5 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorlist.new && mv /etc/pacman.d/mirrorlist.new /etc/pacman.d/mirrorlist && chmod 644 /etc/pacman.d/mirrorlist"
 
 # FIRST COMMANDS AND COOLRUNE IMPORT P2
+# Pre-emptively remove known problematic packages before system upgrade
+pacman -Rdd --noconfirm lib32-mesa mesa libxml2 poppler poppler-glib vulkan-intel vulkan-radeon vulkan-swrast 2>/dev/null || true
 safe_system_upgrade
 mv /home/coolrune-files/files/coolrune-manual/Manual /home/$USER/Desktop/
 
