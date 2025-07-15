@@ -1,7 +1,7 @@
 #!/bin/bash
 
 su -c '
-### ROBUST RETRY LOGIC ###
+### RETRY LOGIC ###
 
 retry_pacman() {
   local max_attempts="$1"
@@ -72,8 +72,8 @@ retry_pacman() {
   done
 }
 
-### ROBUST PACKAGE REMOVAL ###
-robust_remove() {
+### PACKAGE REMOVAL ###
+safe_remove() {
   local packages="$@"
   echo "Attempting to remove packages: $packages" >&2
   
@@ -94,9 +94,9 @@ robust_remove() {
   return 0
 }
 
-### ROBUST SYSTEM UPDATE ###
-robust_update() {
-  echo "Performing robust system update..." >&2
+### SYSTEM UPDATE ###
+full_update() {
+  echo "Performing system update..." >&2
   
   # Update package databases
   pacman -Sy --noconfirm
@@ -118,8 +118,8 @@ robust_update() {
   fi
 }
 
-### ROBUST FILE OPERATIONS ###
-robust_extract() {
+### FILE OPERATIONS ###
+extract_archive() {
   local archive="$1"
   local destination="$2"
   local options="$3"
@@ -146,8 +146,8 @@ robust_extract() {
   return 0
 }
 
-### ROBUST SERVICE MANAGEMENT ###
-robust_service_add() {
+### SERVICE MANAGEMENT ###
+add_service() {
   local service="$1"
   echo "Adding service: $service" >&2
   
@@ -200,7 +200,7 @@ pacman-key --lsign-key 3056513887B78AEB 2>/dev/null || true
 
 # FIRST COMMANDS AND COOLRUNE IMPORT P1
 killall xfce4-screensaver 2>/dev/null || true
-robust_update
+full_update
 retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' p7zip git
 mkdir -p /home/coolrune-files/ 2>/dev/null || true
 git clone https://github.com/Michael-Sebero/CoolRune /home/coolrune-files/ 2>/dev/null || \
@@ -211,13 +211,13 @@ cd /home/coolrune-files/files/coolrune-packages/ 2>/dev/null || {
 }
 
 # Extract configuration files
-robust_extract "coolrune-pacman-1.7z" "/etc/" ""
+extract_archive "coolrune-pacman-1.7z" "/etc/" ""
 retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' artix-archlinux-support pacman-contrib artix-keyring
 
 # Install chaotic-aur keyring and mirrorlist
 retry_pacman 5 pacman -U --noconfirm --overwrite='*' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 
-robust_extract "coolrune-pacman-2.7z" "/etc/" ""
+extract_archive "coolrune-pacman-2.7z" "/etc/" ""
 chmod 755 /etc/pacman.conf 2>/dev/null || true
 
 # Update keyrings
@@ -226,44 +226,44 @@ retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' alhp-keyring
 
 # Clean up potential conflicts
 rm -f /usr/lib/firmware/nvidia/ad10{3,4,5,6,7}* 2>/dev/null || true
-robust_remove "lib32-mesa-git mesa"
+safe_remove "lib32-mesa-git mesa"
 
 # FIND QUICKEST MIRRORLIST
 echo -e "\e[1mFinding quickest mirrorlist, please wait...\e[0m"
 sh -c "rankmirrors -v -n 5 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorlist.new 2>/dev/null && mv /etc/pacman.d/mirrorlist.new /etc/pacman.d/mirrorlist 2>/dev/null && chmod 644 /etc/pacman.d/mirrorlist 2>/dev/null" || true
 
 # FIRST COMMANDS AND COOLRUNE IMPORT P2
-robust_update
+full_update
 mkdir -p /home/$USER/Desktop/ 2>/dev/null || true
 mv /home/coolrune-files/files/coolrune-manual/Manual /home/$USER/Desktop/ 2>/dev/null || true
 
 # REPO PACKAGES REMOVE
-robust_remove "linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv xfce4-dict xfce4-weather-plugin"
+safe_remove "linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv xfce4-dict xfce4-weather-plugin"
 
 # BASE REPO PACKAGES INSTALL
 retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support base-devel unzip xorg-xrandr unrar flatpak kate librewolf python-pip tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-ge-custom wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread ccache earlyoom earlyoom-s6 python-pypdf2 dialog zramen zramen-s6 zfs-utils tree sof-firmware booster bottles paru
 
 # AMD/INTEL-DESKTOP CHOICE
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
-  robust_remove "vulkan-intel vulkan-radeon vulkan-swrast xfce4-power-manager xfce4-battery-plugin"
+  safe_remove "vulkan-intel vulkan-radeon vulkan-swrast xfce4-power-manager xfce4-battery-plugin"
   retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
 fi
 
 # AMD/INTEL-LAPTOP CHOICE
 if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
-  robust_remove "vulkan-intel vulkan-radeon vulkan-swrast"
+  safe_remove "vulkan-intel vulkan-radeon vulkan-swrast"
   retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 mesa-tkg-git lib32-mesa-tkg-git
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
 if [ "$choice" = "5" ]; then
-  robust_remove "vulkan-intel vulkan-radeon vulkan-swrast xfce4-power-manager xfce4-battery-plugin"
+  safe_remove "vulkan-intel vulkan-radeon vulkan-swrast xfce4-power-manager xfce4-battery-plugin"
   retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
 if [ "$choice" = "6" ]; then
-  robust_remove "vulkan-intel vulkan-radeon xfce4-power-manager xfce4-battery-plugin"
+  safe_remove "vulkan-intel vulkan-radeon xfce4-power-manager xfce4-battery-plugin"
   retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6
 fi
 
@@ -287,55 +287,55 @@ cd /home/coolrune-files/files/coolrune-packages/ 2>/dev/null || {
 
 # AMD/INTEL DESKTOP SELECTION
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
-  robust_extract "coolrune-dotfiles.7z" "/home/$USER/" ""
-  robust_extract "coolrune-root.zip" "/" ""
-  robust_service_add "apparmor"
-  robust_service_add "fail2ban"
-  robust_service_add "NetworkManager"
-  robust_service_add "dnscrypt-proxy"
-  robust_service_add "ufw"
-  robust_service_add "cpupower"
-  robust_service_add "earlyoom"
-  robust_service_add "zramen"
+  extract_archive "coolrune-dotfiles.7z" "/home/$USER/" ""
+  extract_archive "coolrune-root.zip" "/" ""
+  add_service "apparmor"
+  add_service "fail2ban"
+  add_service "NetworkManager"
+  add_service "dnscrypt-proxy"
+  add_service "ufw"
+  add_service "cpupower"
+  add_service "earlyoom"
+  add_service "zramen"
   rm -f /etc/s6/adminsv/default/contents.d/connmand 2>/dev/null || true
-  robust_remove "vlc-luajit connman connman-s6 connman-gtk"
+  safe_remove "vlc-luajit connman connman-s6 connman-gtk"
   s6-db-reload 2>/dev/null || true
   grub-mkconfig -o /boot/grub/grub.cfg 2>/dev/null || true
 fi
 
 # LAPTOP SELECTION
 if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
-  robust_extract "coolrune-dotfiles-laptop.7z" "/home/$USER/" ""
-  robust_extract "coolrune-root-laptop.zip" "/" ""
-  robust_service_add "cpupower"
-  robust_service_add "apparmor"
-  robust_service_add "NetworkManager"
-  robust_service_add "dnscrypt-proxy"
-  robust_service_add "ufw"
-  robust_service_add "earlyoom"
-  robust_service_add "zramen"
-  robust_service_add "tlp"
+  extract_archive "coolrune-dotfiles-laptop.7z" "/home/$USER/" ""
+  extract_archive "coolrune-root-laptop.zip" "/" ""
+  add_service "cpupower"
+  add_service "apparmor"
+  add_service "NetworkManager"
+  add_service "dnscrypt-proxy"
+  add_service "ufw"
+  add_service "earlyoom"
+  add_service "zramen"
+  add_service "tlp"
   rm -f /etc/s6/adminsv/default/contents.d/connmand 2>/dev/null || true
-  robust_remove "vlc-luajit connman connman-s6 connman-gtk"
+  safe_remove "vlc-luajit connman connman-s6 connman-gtk"
   s6-db-reload 2>/dev/null || true
   grub-mkconfig -o /boot/grub/grub.cfg 2>/dev/null || true
 fi
 
 # NVIDIA SELECTION
 if [ "$choice" = "5" ] || [ "$choice" = "6" ]; then
-  robust_extract "coolrune-dotfiles.7z" "/home/$USER/" ""
-  robust_extract "coolrune-root.zip" "/" ""
-  robust_extract "coolrune-nvidia-patch.7z" "/" ""
-  robust_service_add "apparmor"
-  robust_service_add "fail2ban"
-  robust_service_add "NetworkManager"
-  robust_service_add "dnscrypt-proxy"
-  robust_service_add "ufw"
-  robust_service_add "cpupower"
-  robust_service_add "earlyoom"
-  robust_service_add "zramen"
+  extract_archive "coolrune-dotfiles.7z" "/home/$USER/" ""
+  extract_archive "coolrune-root.zip" "/" ""
+  extract_archive "coolrune-nvidia-patch.7z" "/" ""
+  add_service "apparmor"
+  add_service "fail2ban"
+  add_service "NetworkManager"
+  add_service "dnscrypt-proxy"
+  add_service "ufw"
+  add_service "cpupower"
+  add_service "earlyoom"
+  add_service "zramen"
   rm -f /etc/s6/adminsv/default/contents.d/connmand 2>/dev/null || true
-  robust_remove "vlc-luajit connman connman-s6 connman-gtk"
+  safe_remove "vlc-luajit connman connman-s6 connman-gtk"
   s6-db-reload 2>/dev/null || true
   grub-mkconfig -o /boot/grub/grub.cfg 2>/dev/null || true
 fi
