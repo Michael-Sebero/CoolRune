@@ -111,7 +111,7 @@ pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring
 chmod 755 /etc/pacman.conf
 pacman-key --populate archlinux artix
 pacman -Sy --noconfirm alhp-keyring
-sudo rm -f /usr/lib/firmware/nvidia/ad10{3,4,5,6,7} || true
+rm -rf /usr/lib/firmware/nvidia/ad10{3,4,5,6,7} || true
 
 # FIND QUICKEST MIRRORLIST
 echo -e "\e[1mFinding quickest mirrorlist, please wait...\e[0m"
