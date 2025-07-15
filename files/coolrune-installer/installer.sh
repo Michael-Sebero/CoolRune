@@ -6,7 +6,7 @@ su -c '
 retry_pacman() {
   local max_attempts="$1"
   shift
-  local command="$@"
+  local command="$*"
   local attempt_num=1
   
   until eval "$command"
