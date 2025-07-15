@@ -111,8 +111,8 @@ pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring
 chmod 755 /etc/pacman.conf
 pacman-key --populate archlinux artix
 pacman -Sy --noconfirm alhp-keyring
-rm -f /usr/lib/firmware/nvidia/ad10{3,4,5,6,7}
-pacman -Rdd --noconfirm lib32-mesa-git mesa vulkan-intel vulkan-radeon vulkan-swrast || true
+rm -rf /usr/lib/firmware/nvidia/ad10{3,4,5,6,7}
+pacman -Rdd --noconfirm mesa vulkan-intel vulkan-radeon vulkan-swrast || true
 
 # FIND QUICKEST MIRRORLIST
 echo -e "\e[1mFinding quickest mirrorlist, please wait...\e[0m"
@@ -130,22 +130,22 @@ retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-g
 
 # AMD/INTEL-DESKTOP CHOICE
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
-  pacman -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
+  pacman -Rdd --noconfirm lib32-mesa-git xfce4-power-manager xfce4-battery-plugin && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git vkbasalt lib32-vkbasalt mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
 fi
 
 # AMD/INTEL-LAPTOP CHOICE
 if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
-  retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 mesa-tkg-git lib32-mesa-tkg-git
+  pacman -Rdd --noconfirm lib32-mesa-git && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos-eevdf linux-cachyos-eevdf-headers linux-cachyos-eevdf-zfs throttled tlp tlp-s6 blueman bluez bluez-s6 mesa-tkg-git lib32-mesa-tkg-git
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
 if [ "$choice" = "5" ]; then
-  pacman -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
+  pacman -Rdd --noconfirm lib32-mesa-git xfce4-power-manager xfce4-battery-plugin && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings mesa-tkg-git lib32-mesa-tkg-git fail2ban fail2ban-s6
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
 if [ "$choice" = "6" ]; then
-  pacman -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6
+  pacman -Rdd --noconfirm lib32-mesa-git xfce4-power-manager xfce4-battery-plugin && retry_pacman 5 pacman -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers linux-cachyos-zfs protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6
 fi
 
 # FLATPAK PACKAGES
