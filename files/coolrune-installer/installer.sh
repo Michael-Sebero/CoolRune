@@ -175,7 +175,7 @@ if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
   s6-service add default earlyoom
   s6-service add default zramen
   rm /etc/s6/adminsv/default/contents.d/connmand
-  pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk
+  pacman -Rdd --noconfirm connman connman-s6 connman-gtk
   s6-db-reload
   grub-mkconfig -o /boot/grub/grub.cfg
 fi
@@ -194,7 +194,7 @@ if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
   s6-service add default zramen
   s6-service add default tlp
   rm /etc/s6/adminsv/default/contents.d/connmand
-  pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk
+  pacman -Rdd --noconfirm connman connman-s6 connman-gtk
   s6-db-reload
   grub-mkconfig -o /boot/grub/grub.cfg
 fi
@@ -214,7 +214,7 @@ if [ "$choice" = "5" ] || [ "$choice" = "6" ]; then
   s6-service add default earlyoom
   s6-service add default zramen
   rm /etc/s6/adminsv/default/contents.d/connmand
-  pacman -Rdd --noconfirm vlc-luajit connman connman-s6 connman-gtk
+  pacman -Rdd --noconfirm connman connman-s6 connman-gtk
   s6-db-reload
   grub-mkconfig -o /boot/grub/grub.cfg
 fi
