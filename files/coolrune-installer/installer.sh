@@ -136,22 +136,22 @@ retry_paru 5 paru -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,n
 
 # AMD/INTEL-DESKTOP CHOICE
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git vkbasalt lib32-vkbasalt fail2ban fail2ban-s6 zfs-utils-git && take zfs-dkms-staging-git
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git vkbasalt lib32-vkbasalt fail2ban fail2ban-s6 zfs-dkms-git zfs-utils-git
 fi
 
 # AMD/INTEL-LAPTOP CHOICE
 if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
-  retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers throttled tlp tlp-s6 blueman bluez bluez-s6 brightnessctl zfs-utils-git && take zfs-dkms-staging-git
+  retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers throttled tlp tlp-s6 blueman bluez bluez-s6 brightnessctl zfs-dkms-git zfs-utils-git
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
 if [ "$choice" = "5" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 zfs-utils-git nvidia-open-dkms && take zfs-dkms-staging-git
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 zfs-dkms-git zfs-utils-git nvidia-open-dkms
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
 if [ "$choice" = "6" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 zfs-utils-git nvidia-dkms && take zfs-dkms-staging-git
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 zfs-dkms-git zfs-utils-git nvidia-dkms
 fi
 
 # FLATPAK PACKAGES
