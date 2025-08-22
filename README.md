@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://i.postimg.cc/TYCbKN6L/Life.png" width="35%" />
+	<img src="https://i.postimg.cc/TYCbKN6L/Life.png" width="25%" />
 </p>
 
 <p align="center"><strong><font size="12">CoolRune</font></strong> is a High-Performance, Security-Focused Meta-Distribution of Artix Linux</p>
