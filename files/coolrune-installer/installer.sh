@@ -128,33 +128,30 @@ sh -c "rankmirrors -v -n 5 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorl
 pacman -S paru --noconfirm --needed && retry_paru 5 paru -Syyu --noconfirm --needed --overwrite='*' --ignore=linux,linux-headers
 mv /home/coolrune-files/files/coolrune-manual/Manual /home/$USER/Desktop/
 
-# REPO PACKAGES REMOVE P1
-paru -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv xfce4-dict xfce4-weather-plugin
+# REPO PACKAGES REMOVE
+paru -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv xfce4-dict xfce4-weather-plugin mesa lib32-mesa vulkan-intel vulkan-radeon vulkan-swrast
 
 # BASE REPO PACKAGES INSTALL
-retry_paru 5 paru -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support xorg-xrandr unrar flatpak kate librewolf python-pip tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread ccache earlyoom earlyoom-s6 python-pypdf2 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld
-
-# REPO PACKAGES REMOVE P2
-paru -Rdd --noconfirm mesa lib32-mesa vulkan-intel vulkan-radeon vulkan-swrast
+retry_paru 5 paru -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support xorg-xrandr unrar flatpak kate librewolf python-pip tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine wine-mono winetricks ufw-s6 redshift steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber wine-gecko rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread ccache earlyoom earlyoom-s6 python-pypdf2 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld mesa-tkg-git lib32-mesa-tkg-git
 
 # AMD/INTEL-DESKTOP CHOICE
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git vkbasalt lib32-vkbasalt fail2ban fail2ban-s6 zfs-utils-git zfs-dkms-git mesa-tkg-git lib32-mesa-tkg-git
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git vkbasalt lib32-vkbasalt fail2ban fail2ban-s6 zfs-utils-git zfs-dkms-git
 fi
 
 # AMD/INTEL-LAPTOP CHOICE
 if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
-  retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers throttled tlp tlp-s6 blueman bluez bluez-s6 brightnessctl zfs-utils-git zfs-dkms-git mesa-tkg-git lib32-mesa-tkg-git
+  retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers throttled tlp tlp-s6 blueman bluez bluez-s6 brightnessctl zfs-utils-git zfs-dkms-git
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
 if [ "$choice" = "5" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 nvidia-open-dkms zfs-utils-git zfs-dkms-git mesa-tkg-git lib32-mesa-tkg-git
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git linux-cachyos-nvidia-open nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 nvidia-open-dkms zfs-utils-git zfs-dkms-git
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
 if [ "$choice" = "6" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 nvidia-dkms zfs-utils-git zfs-dkms-git mesa-tkg-git lib32-mesa-tkg-git
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 nvidia-dkms zfs-utils-git zfs-dkms-git
 fi
 
 # FLATPAK PACKAGES
