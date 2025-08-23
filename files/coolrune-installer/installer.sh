@@ -163,9 +163,6 @@ if pacman -Q protonup-git &>/dev/null; then
     su - "$USER" -c "protonup -d /home/$USER/.local/share/Steam/compatibilitytools.d/ && protonup -y"
 fi
 
-# INSTALL AUR PACKAGES
-take zfs-dkms-staging-git || true
-
 ### COOLRUNE INSTALL ###
 
 # AMD/INTEL DESKTOP SELECTION
@@ -173,17 +170,7 @@ if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
   7z x coolrune-dotfiles.7z -o/home/$USER/ -y
   unzip -o coolrune-main.zip -d /
   unzip -o coolrune-root.zip -d /
-  s6-service add default apparmor
   s6-service add default fail2ban
-  s6-service add default NetworkManager
-  s6-service add default dnscrypt-proxy
-  s6-service add default ufw
-  s6-service add default cpupower
-  s6-service add default earlyoom
-  rm /etc/s6/adminsv/default/contents.d/connmand
-  pacman -Rdd --noconfirm connman connman-s6 connman-gtk
-  s6-db-reload
-  grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
 # LAPTOP SELECTION
@@ -191,17 +178,7 @@ if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
   7z x coolrune-dotfiles-laptop.7z -o/home/$USER/ -y
   unzip -o coolrune-main.zip -d /
   unzip -o coolrune-root-laptop.zip -d /
-  s6-service add default cpupower
-  s6-service add default apparmor
-  s6-service add default NetworkManager
-  s6-service add default dnscrypt-proxy
-  s6-service add default ufw
-  s6-service add default earlyoom
   s6-service add default tlp
-  rm /etc/s6/adminsv/default/contents.d/connmand
-  pacman -Rdd --noconfirm connman connman-s6 connman-gtk
-  s6-db-reload
-  grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
 # NVIDIA SELECTION
@@ -210,18 +187,24 @@ if [ "$choice" = "5" ] || [ "$choice" = "6" ]; then
   unzip -o coolrune-main.zip -d /
   unzip -o coolrune-root.zip -d /
   unzip -o coolrune-nvidia-patch.zip -d /
-  s6-service add default apparmor
   s6-service add default fail2ban
-  s6-service add default NetworkManager
-  s6-service add default dnscrypt-proxy
-  s6-service add default ufw
-  s6-service add default cpupower
-  s6-service add default earlyoom
-  rm /etc/s6/adminsv/default/contents.d/connmand
-  pacman -Rdd --noconfirm connman connman-s6 connman-gtk
-  s6-db-reload
-  grub-mkconfig -o /boot/grub/grub.cfg
 fi
+
+### LAST COMMANDS P1
+s6-service add default apparmor
+s6-service add default NetworkManager
+s6-service add default dnscrypt-proxy
+s6-service add default ufw
+s6-service add default cpupower
+s6-service add default earlyoom
+
+# INSTALL AUR PACKAGES
+take zfs-dkms-staging-git || true
+
+rm /etc/s6/adminsv/default/contents.d/connmand
+pacman -Rdd --noconfirm connman connman-s6 connman-gtk
+s6-db-reload
+grub-mkconfig -o /boot/grub/grub.cfg
 
 # CREATE GAMEMODE GROUP
 if [ "$choice" = "1" ] || [ "$choice" = "3" ] || [ "$choice" = "5" ] || [ "$choice" = "6" ]; then
@@ -246,7 +229,7 @@ reset-permissions
 sh /CoolRune/Programs/Hardening-Script/hardening-script.sh && umask 027
 cd /
 
-# LAST COMMANDS
+# LAST COMMANDS P2
 mv /etc/profile{,.old}
 grub-install || true
 update-grub
