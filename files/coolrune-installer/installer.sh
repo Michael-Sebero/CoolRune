@@ -92,7 +92,7 @@ curl -s https://raw.githubusercontent.com/chaotic-aur/.github/refs/heads/main/pr
 | sed "s/--recv-key \([0-9A-F]*\)/--recv-key \1; pacman-key --lsign-key \1/" \
 | bash
 
-# FIRST COMMANDS AND COOLRUNE IMPORT P1
+### FIRST COMMANDS AND COOLRUNE IMPORT P1
 killall xfce4-screensaver
 pacman -Sy --noconfirm --needed p7zip unzip git base-devel
 mkdir /home/coolrune-files/
@@ -124,7 +124,7 @@ pacman -Syy
 echo -e "\e[1mFinding quickest mirrorlist, please wait...\e[0m"
 sh -c "rankmirrors -v -n 5 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorlist.new && mv /etc/pacman.d/mirrorlist.new /etc/pacman.d/mirrorlist && chmod 644 /etc/pacman.d/mirrorlist"
 
-# FIRST COMMANDS AND COOLRUNE IMPORT P2
+### FIRST COMMANDS AND COOLRUNE IMPORT P2
 pacman -S paru --noconfirm --needed && retry_paru 5 paru -Syyu --noconfirm --needed --overwrite='*' --ignore=linux,linux-headers
 mv /home/coolrune-files/files/coolrune-manual/Manual /home/$USER/Desktop/
 
