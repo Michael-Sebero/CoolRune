@@ -131,7 +131,7 @@ mv /home/coolrune-files/files/coolrune-manual/Manual /home/$USER/Desktop/
 # REPO PACKAGES REMOVE
 paru -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv xfce4-dict xfce4-weather-plugin mesa vulkan-intel vulkan-radeon vulkan-swrast
 
-# BASE REPO PACKAGES INSTALL
+# INSTALL REPO PACKAGES
 retry_paru 5 paru -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support xorg-xrandr unrar flatpak kate librewolf python-pip tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-git wine-mono winetricks-git ufw-s6 redshift steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv freetube python-magic python-piexif alsa-utils expect inotify-tools preload python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread ccache earlyoom earlyoom-s6 python-pypdf2 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld mesa-tkg-git lib32-mesa-tkg-git
 
 # AMD/INTEL-DESKTOP CHOICE
@@ -154,7 +154,7 @@ if [ "$choice" = "6" ]; then
   paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git linux-cachyos-nvidia nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 nvidia-dkms
 fi
 
-# FLATPAK PACKAGES
+# INSTALL FLATPAK PACKAGES
 flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna org.jdownloader.JDownloader
 
@@ -162,6 +162,9 @@ flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna o
 if pacman -Q protonup-git &>/dev/null; then
     su - "$USER" -c "protonup -d /home/$USER/.local/share/Steam/compatibilitytools.d/ && protonup -y"
 fi
+
+# INSTALL AUR PACKAGES
+take zfs-dkms-staging-git || true
 
 ### COOLRUNE INSTALL ###
 
