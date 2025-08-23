@@ -190,7 +190,7 @@ if [ "$choice" = "5" ] || [ "$choice" = "6" ]; then
   s6-service add default fail2ban
 fi
 
-### LAST COMMANDS P1
+### LAST COMMANDS
 s6-service add default apparmor
 s6-service add default NetworkManager
 s6-service add default dnscrypt-proxy
@@ -229,7 +229,7 @@ reset-permissions
 sh /CoolRune/Programs/Hardening-Script/hardening-script.sh && umask 027
 cd /
 
-# LAST COMMANDS P2
+# EXIT
 mv /etc/profile{,.old}
 grub-install || true
 update-grub
