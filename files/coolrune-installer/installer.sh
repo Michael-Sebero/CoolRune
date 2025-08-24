@@ -190,6 +190,9 @@ if [ "$choice" = "5" ] || [ "$choice" = "6" ]; then
   s6-service add default fail2ban
 fi
 
+# RESET PERMISSIONS
+reset-permissions
+
 ### LAST COMMANDS ###
 s6-service add default apparmor
 s6-service add default NetworkManager
@@ -222,9 +225,6 @@ if [ "$choice" = "1" ] || [ "$choice" = "3" ] || [ "$choice" = "5" ] || [ "$choi
     echo "Failed to add to gamemode group"
   fi
 fi
-
-# RESET PERMISSIONS
-reset-permissions
 
 # HARDENING SCRIPT
 sh /CoolRune/Programs/Hardening-Script/hardening-script.sh && umask 027
