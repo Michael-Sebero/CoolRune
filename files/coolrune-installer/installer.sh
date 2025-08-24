@@ -190,9 +190,6 @@ if [ "$choice" = "5" ] || [ "$choice" = "6" ]; then
   s6-service add default fail2ban
 fi
 
-# RESET PERMISSIONS
-reset-permissions
-
 ### LAST COMMANDS ###
 s6-service add default apparmor
 s6-service add default NetworkManager
@@ -200,6 +197,9 @@ s6-service add default dnscrypt-proxy
 s6-service add default ufw
 s6-service add default cpupower
 s6-service add default earlyoom
+
+# RESET PERMISSIONS
+reset-permissions
 
 # INSTALL AUR PACKAGES
 take zfs-dkms-staging-git || true
