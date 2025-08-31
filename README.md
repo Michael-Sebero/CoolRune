@@ -45,7 +45,7 @@
 * Battery life optimizations for laptops via [TLP](https://github.com/linrunner/TLP).
 * [Mimalloc](https://github.com/microsoft/mimalloc) (high-performance memory allocator).
 * Uses tmpfs to speed up temporary directories and reducing disk I/O.
-* [AC-Mode](https://github.com/Michael-Sebero/AC-Mode) laptop performance program for laptops.
+* [AC-Mode](https://github.com/Michael-Sebero/AC-Mode) (laptop performance program for laptops).
 
 ## Performance & Security Expectations
 * **10-25%** FPS boost in gaming.
