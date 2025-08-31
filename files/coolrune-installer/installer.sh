@@ -122,17 +122,20 @@ pacman -Syy
 
 # FIND QUICKEST MIRRORLIST
 echo -e "\e[1mFinding quickest mirrorlist, please wait...\e[0m"
-sh -c "rankmirrors -v -n 5 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorlist.new && mv /etc/pacman.d/mirrorlist.new /etc/pacman.d/mirrorlist && chmod 644 /etc/pacman.d/mirrorlist"
+sh -c "rankmirrors -v -n 3 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorlist.new && mv /etc/pacman.d/mirrorlist.new /etc/pacman.d/mirrorlist && chmod 644 /etc/pacman.d/mirrorlist"
 
 ### FIRST COMMANDS AND COOLRUNE IMPORT P2 ###
 pacman -S paru --noconfirm --needed && retry_paru 5 paru -Syyu --noconfirm --needed --overwrite='*' --ignore=linux,linux-headers
 mv /home/coolrune-files/files/coolrune-manual/Manual /home/$USER/Desktop/
 
-# REPO PACKAGES REMOVE
+# REMOVE PACKAGES
 paru -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-zeroconf epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril artix-branding-base artix-grub-theme xfce4-sensors-plugin xfce4-notes-plugin mpv xfce4-dict xfce4-weather-plugin mesa vulkan-intel vulkan-radeon vulkan-swrast
 
-# INSTALL REPO PACKAGES
-retry_paru 5 paru -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support xorg-xrandr unrar flatpak kate librewolf python-pip tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-git wine-mono winetricks-git ufw-s6 redshift steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber rust python-psutil python-dateutil python-xlib python-pyaudio python-pipenv usbguard usbguard-s6 hunspell-en_us chkrootkit python-matplotlib python-tqdm python-pillow python-mutagen wget noto-fonts-emoji xfce4-panel-profiles poetry tauon-music-box yt-dlp pyenv freetube python-magic python-piexif alsa-utils jq expect inotify-tools preload python-moviepy python-brotli python-websockets cpupower cpupower-s6 python-librosa python-audioread ccache earlyoom earlyoom-s6 python-pypdf2 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld mesa-tkg-git lib32-mesa-tkg-git gtk-engines xdg-desktop-portal-gtk protontricks-git
+# INSTALL BASE PACKAGES
+retry_paru 5 paru -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support xorg-xrandr unrar flatpak kate librewolf tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw mugshot macchanger networkmanager networkmanager-s6 nm-connection-editor wine-git wine-mono winetricks-git ufw-s6 redshift steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony lightdm-gtk-greeter-settings downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber rust usbguard usbguard-s6 chkrootkit wget noto-fonts-emoji xfce4-panel-profiles tauon-music-box freetube alsa-utils expect inotify-tools preload cpupower cpupower-s6 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld mesa-tkg-git lib32-mesa-tkg-git gtk-engines xdg-desktop-portal-gtk protontricks-git poetry pyenv python-pip hunspell-en_us ccache earlyoom earlyoom-s6 yt-dlp
+
+# INSTALL PYTHON PACKAGES
+retry_paru 5 paru -S --noconfirm --needed --overwrite='*' python-dateutil python-xlib python-psutil python-pyaudio python-pipenv python-matplotlib python-tqdm python-pillow python-mutagen python-magic python-piexif python-moviepy python-brotli python-websockets python-librosa python-audioread python-pypdf2
 
 # AMD/INTEL-DESKTOP CHOICE
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
