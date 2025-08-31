@@ -167,7 +167,7 @@ fi
 
 # AMD/INTEL DESKTOP SELECTION
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
-  7z x coolrune-dotfiles.7z -o/home/$USER/ -y
+  unzip -o coolrune-dotfiles.zip -d /home/$USER/
   unzip -o coolrune-main.zip -d /
   unzip -o coolrune-root.zip -d /
   s6-service add default fail2ban
@@ -175,7 +175,7 @@ fi
 
 # LAPTOP SELECTION
 if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
-  7z x coolrune-dotfiles-laptop.7z -o/home/$USER/ -y
+  unzip -o coolrune-dotfiles-laptop.zip -d /home/$USER/
   unzip -o coolrune-main.zip -d /
   unzip -o coolrune-root-laptop.zip -d /
   s6-service add default tlp
@@ -183,7 +183,7 @@ fi
 
 # NVIDIA SELECTION
 if [ "$choice" = "5" ] || [ "$choice" = "6" ]; then
-  7z x coolrune-dotfiles.7z -o/home/$USER/ -y
+  unzip -o coolrune-dotfiles.zip -d /home/$USER/
   unzip -o coolrune-main.zip -d /
   unzip -o coolrune-root.zip -d /
   unzip -o coolrune-nvidia-patch.zip -d /
