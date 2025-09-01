@@ -2,8 +2,7 @@
 
 su -c '
 ### RETRY LOGIC ###
-
-retry_paru() {
+retry() {
   local max_attempts="$1"
   shift
   local command="$@"
@@ -15,29 +14,49 @@ retry_paru() {
     then
       echo "Attempt $attempt_num failed! Trying to continue with available packages..." >&2
       
-      # Extract package names from the original command
+      # Extract package names and detect package manager
       local pkg_list=""
-      if echo "$command" | grep -q " -S "; then
-        pkg_list=$(echo "$command" | sed -E "s/.*paru -S[[:space:]]+--noconfirm[[:space:]]+--needed([[:space:]]+--ignore=[^[:space:]]+)?[[:space:]]+//")
+      local pkg_manager=""
+      local base_flags=""
+      
+      if echo "$command" | grep -q "paru.*-S"; then
+        pkg_manager="paru"
+        pkg_list=$(echo "$command" | sed -E "s/.*paru[[:space:]]+(-S[[:space:]]+[^[:space:]]*[[:space:]]+)*(--[^[:space:]]+[[:space:]]+)*//")
+        base_flags="-S --noconfirm --needed"
+      elif echo "$command" | grep -q "pacman.*-S"; then
+        pkg_manager="pacman"
+        pkg_list=$(echo "$command" | sed -E "s/.*pacman[[:space:]]+(-S[[:space:]]+[^[:space:]]*[[:space:]]+)*(--[^[:space:]]+[[:space:]]+)*//")
+        base_flags="-S --noconfirm --needed --overwrite='*'"
       else
-        echo "Unable to parse package list from command, continuing..." >&2
+        echo "Unable to detect package manager (paru/pacman) from command, continuing..." >&2
         return 0
       fi
       
-      # Extract the ignore flag if present
-      local ignore_flag=""
+      # Extract additional flags (like --ignore)
+      local extra_flags=""
       if echo "$command" | grep -q -- "--ignore="; then
-        ignore_flag=$(echo "$command" | grep -o -- "--ignore=[^ ]*")
+        extra_flags=$(echo "$command" | grep -o -- "--ignore=[^ ]*")
+      fi
+      if echo "$command" | grep -q -- "--overwrite="; then
+        local overwrite_flag=$(echo "$command" | grep -o -- "--overwrite=[^ ]*")
+        if [[ "$extra_flags" == *"--overwrite="* ]]; then
+          : # already captured
+        else
+          extra_flags="$extra_flags $overwrite_flag"
+        fi
       fi
       
       # Get list of unavailable packages
-      echo "Testing package availability, please wait..." >&2
+      echo "Testing package availability with $pkg_manager, please wait..." >&2
       local all_pkgs=($pkg_list)
       local available_pkgs=""
       local failed_pkgs=""
       
       for pkg in "${all_pkgs[@]}"; do
         if [ -z "$pkg" ]; then continue; fi
+        
+        # Use pacman -Sp to check availability regardless of the package manager
+        # since both paru and pacman can check package existence this way
         if pacman -Sp "$pkg" &>/dev/null; then
           available_pkgs="$available_pkgs $pkg"
         else
@@ -55,7 +74,7 @@ retry_paru() {
       
       if [ -n "$available_pkgs" ]; then
         # Reconstruct the command with available packages
-        local new_cmd="pacman -S --noconfirm --needed --overwrite='*' $ignore_flag $available_pkgs"
+        local new_cmd="$pkg_manager $base_flags $extra_flags $available_pkgs"
         echo "Executing modified command: $new_cmd" >&2
         
         # Execute the modified command
@@ -125,7 +144,7 @@ echo -e "\e[1mFinding quickest mirrorlist, please wait...\e[0m"
 sh -c "rankmirrors -v -n 3 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorlist.new && mv /etc/pacman.d/mirrorlist.new /etc/pacman.d/mirrorlist && chmod 644 /etc/pacman.d/mirrorlist"
 
 ### FIRST COMMANDS AND COOLRUNE IMPORT P2 ###
-pacman -S paru --noconfirm --needed && retry_paru 5 paru -Syyu --noconfirm --needed --overwrite='*' --ignore=linux,linux-headers
+pacman -S paru --noconfirm --needed && retry 5 pacman -Syyu --noconfirm --needed --overwrite='*' --ignore=linux,linux-headers
 mv /home/coolrune-files/files/coolrune-manual/Manual /home/$USER/Desktop/
 
 # REMOVE PACKAGES
@@ -135,42 +154,42 @@ paru -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-
 paru -Rdd --noconfirm epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril xfce4-sensors-plugin xfce4-notes-plugin xfce4-dict xfce4-weather-plugin || true
 
 # INSTALL BASE PACKAGES
-retry_paru 5 paru -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support unrar flatpak kate librewolf tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw macchanger networkmanager networkmanager-s6 nm-connection-editor wine-git wine-mono winetricks-git ufw-s6 steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber rust usbguard usbguard-s6 chkrootkit wget noto-fonts-emoji tauon-music-box freetube alsa-utils expect inotify-tools preload cpupower cpupower-s6 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld mesa-tkg-git lib32-mesa-tkg-git protontricks-git poetry pyenv python-pip hunspell-en_us ccache earlyoom earlyoom-s6 yt-dlp seahorse
+retry 5 paru -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support unrar flatpak kate librewolf tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw macchanger networkmanager networkmanager-s6 nm-connection-editor wine-git wine-mono winetricks-git ufw-s6 steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber rust usbguard usbguard-s6 chkrootkit wget noto-fonts-emoji tauon-music-box freetube alsa-utils expect inotify-tools preload cpupower cpupower-s6 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld mesa-tkg-git lib32-mesa-tkg-git protontricks-git poetry pyenv python-pip hunspell-en_us ccache earlyoom earlyoom-s6 yt-dlp seahorse
 
 # INSTALL PYTHON PACKAGES
-retry_paru 5 paru -S --noconfirm --needed --overwrite='*' python-dateutil python-xlib python-psutil python-pyaudio python-pipenv python-matplotlib python-tqdm python-pillow python-mutagen python-magic python-piexif python-moviepy python-brotli python-websockets python-librosa python-audioread python-pypdf2
+retry 5 paru -S --noconfirm --needed --overwrite='*' python-dateutil python-xlib python-psutil python-pyaudio python-pipenv python-matplotlib python-tqdm python-pillow python-mutagen python-magic python-piexif python-moviepy python-brotli python-websockets python-librosa python-audioread python-pypdf2
 
 # INSTALL XFCE PACKAGES
 if pacman -Qq | grep -q '^thunar$'; then
     echo "Thunar detected, installing extra XFCE packages..."
-    retry_paru 5 paru -S --noconfirm --needed --overwrite='*' mugshot xfce4-panel-profiles xorg-xrandr redshift lightdm-gtk-greeter-settings gtk-engines xdg-desktop-portal-gtk
+    retry 5 paru -S --noconfirm --needed --overwrite='*' mugshot xfce4-panel-profiles xorg-xrandr redshift lightdm-gtk-greeter-settings gtk-engines xdg-desktop-portal-gtk
 else
     echo "Thunar not detected, skipping XFCE packages."
 fi
 
 # AMD/INTEL-DESKTOP CHOICE
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git vkbasalt lib32-vkbasalt fail2ban fail2ban-s6
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git vkbasalt lib32-vkbasalt fail2ban fail2ban-s6
 fi
 
 # AMD/INTEL-LAPTOP CHOICE
 if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
-  retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers throttled tlp tlp-s6 blueman bluez bluez-s6 brightnessctl
+  retry 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers throttled tlp tlp-s6 blueman bluez bluez-s6 brightnessctl
 fi
 
 # NVIDIA-OPENSOURCE-DESKTOP CHOICE
 if [ "$choice" = "5" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 nvidia-open-dkms
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 nvidia-open-dkms
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
 if [ "$choice" = "6" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry_paru 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 nvidia-dkms
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry 5 paru -S --noconfirm --needed --overwrite='*' linux-cachyos linux-cachyos-headers protonup-git nvidia-utils nvidia-utils-s6 lib32-nvidia-utils nvidia-settings fail2ban fail2ban-s6 nvidia-dkms
 fi
 
 # INSTALL FLATPAK PACKAGES
 flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-flatpak install -y org.kde.haruna org.jdownloader.JDownloader
+flatpak install -y flathub org.kde.haruna org.jdownloader.JDownloader
 
 # INSTALL PROTON-GE
 if pacman -Q protonup-git &>/dev/null; then
