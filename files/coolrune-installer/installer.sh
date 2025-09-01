@@ -141,7 +141,7 @@ pacman -Syy
 
 # FIND QUICKEST MIRRORLIST
 echo -e "\e[1mFinding quickest mirrorlist, please wait...\e[0m"
-sh -c "rankmirrors -v -n 3 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorlist.new && mv /etc/pacman.d/mirrorlist.new /etc/pacman.d/mirrorlist && chmod 644 /etc/pacman.d/mirrorlist"
+sh -c "rankmirrors -v -n 4 -m 2 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorlist.new && mv /etc/pacman.d/mirrorlist.new /etc/pacman.d/mirrorlist && chmod 644 /etc/pacman.d/mirrorlist"
 
 ### FIRST COMMANDS AND COOLRUNE IMPORT P2 ###
 pacman -S paru --noconfirm --needed && retry 5 pacman -Syyu --noconfirm --needed --overwrite='*' --ignore=linux,linux-headers
