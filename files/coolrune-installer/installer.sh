@@ -93,7 +93,7 @@ curl -s https://raw.githubusercontent.com/chaotic-aur/.github/refs/heads/main/pr
 | bash
 
 ### FIRST COMMANDS AND COOLRUNE IMPORT P1 ###
-killall xfce4-screensaver
+killall xfce4-screensaver || true
 pacman -Sy --noconfirm --needed p7zip unzip git base-devel
 mkdir /home/coolrune-files/
 git clone https://github.com/Michael-Sebero/CoolRune /home/coolrune-files/
