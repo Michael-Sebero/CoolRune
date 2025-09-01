@@ -135,7 +135,7 @@ paru -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-
 paru -Rdd --noconfirm epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril xfce4-sensors-plugin xfce4-notes-plugin xfce4-dict xfce4-weather-plugin || true
 
 # INSTALL BASE PACKAGES
-retry_paru 5 paru -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support unrar flatpak kate librewolf tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw macchanger networkmanager networkmanager-s6 nm-connection-editor wine-git wine-mono winetricks-git ufw-s6 steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber rust usbguard usbguard-s6 chkrootkit wget noto-fonts-emoji tauon-music-box freetube alsa-utils expect inotify-tools preload cpupower cpupower-s6 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld mesa-tkg-git lib32-mesa-tkg-git protontricks-git poetry pyenv python-pip hunspell-en_us ccache earlyoom earlyoom-s6 yt-dlp
+retry_paru 5 paru -S --noconfirm --needed --overwrite='*' --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support unrar flatpak kate librewolf tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw macchanger networkmanager networkmanager-s6 nm-connection-editor wine-git wine-mono winetricks-git ufw-s6 steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber rust usbguard usbguard-s6 chkrootkit wget noto-fonts-emoji tauon-music-box freetube alsa-utils expect inotify-tools preload cpupower cpupower-s6 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld mesa-tkg-git lib32-mesa-tkg-git protontricks-git poetry pyenv python-pip hunspell-en_us ccache earlyoom earlyoom-s6 yt-dlp seahorse
 
 # INSTALL PYTHON PACKAGES
 retry_paru 5 paru -S --noconfirm --needed --overwrite='*' python-dateutil python-xlib python-psutil python-pyaudio python-pipenv python-matplotlib python-tqdm python-pillow python-mutagen python-magic python-piexif python-moviepy python-brotli python-websockets python-librosa python-audioread python-pypdf2
@@ -170,7 +170,7 @@ fi
 
 # INSTALL FLATPAK PACKAGES
 flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-flatpak install -y org.gnome.seahorse.Application/x86_64/stable org.kde.haruna org.jdownloader.JDownloader
+flatpak install -y org.kde.haruna org.jdownloader.JDownloader
 
 # INSTALL PROTON-GE
 if pacman -Q protonup-git &>/dev/null; then
