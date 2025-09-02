@@ -257,7 +257,7 @@ if [ "$choice" = "1" ] || [ "$choice" = "3" ] || [ "$choice" = "5" ] || [ "$choi
 fi
 
 # HARDENING SCRIPT
-sh /Algiz-Linux/Programs/Hardening-Script/hardening-script.sh && umask 027
+sh /algiz/programs/hardening-script/hardening-script.sh && umask 027
 cd /
 
 # EXIT
