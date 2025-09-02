@@ -162,7 +162,7 @@ retry 5 paru -S --noconfirm --needed --overwrite='*' python-dateutil python-xlib
 # INSTALL XFCE PACKAGES
 if pacman -Qq | grep -q '^thunar$'; then
     echo "Thunar detected, installing extra XFCE packages..."
-    retry 5 paru -S --noconfirm --needed --overwrite='*' mugshot xfce4-panel-profiles xorg-xrandr redshift lightdm-gtk-greeter-settings gtk-engines xdg-desktop-portal-gtk
+    retry 5 paru -S --noconfirm --needed --overwrite='*' mugshot xfce4-panel-profiles xorg-xrandr redshift lightdm-gtk-greeter-settings gtk-engines xdg-desktop-portal-gtk gtk-engine-murrine
 else
     echo "Thunar not detected, skipping XFCE packages."
 fi
