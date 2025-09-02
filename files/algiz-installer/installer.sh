@@ -265,6 +265,6 @@ mv /etc/profile{,.old}
 grub-install || true
 update-grub
 rm -rf /home/algiz-files/
-echo -e "\e[1mAlgiz-Linux has been successfully installed\e[0m"
+echo -e "\e[1mAlgiz Linux has been successfully installed\e[0m"
 reboot
 '
