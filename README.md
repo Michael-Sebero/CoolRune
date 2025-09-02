@@ -2,9 +2,9 @@
 	<img src="https://i.postimg.cc/TYCbKN6L/Life.png" width="25%" />
 </p>
 
-<p align="center"><strong><font size="12">CoolRune</font></strong> is a High-Performance, Security-Focused Meta-Distribution of Artix Linux</p>
+<p align="center"><strong><font size="12">Algiz-Linux</font></strong> is a High-Performance, Security-Focused Meta-Distribution of Artix Linux</p>
 
-## **CoolRune Includes:**
+## **Algiz-Linux Includes:**
 
 ### **A Modified Kernel & Performance Tools**
 * [CachyOS Kernel](https://wiki.cachyos.org/features/kernel/)
@@ -32,7 +32,7 @@
 * [Media Tools](https://github.com/Michael-Sebero/Media-Tools)
 
 ### **Additional Features**
-* A comprehensive [manual](https://raw.githubusercontent.com/Michael-Sebero/CoolRune/main/files/coolrune-manual/Manual).
+* A comprehensive [manual](https://raw.githubusercontent.com/Michael-Sebero/Algiz-Linux/main/files/coolrune-manual/Manual).
 * MAC address randomization.
 * Configured `sysctl` and `limits` for security enhancements, system performance and network efficiency.
 * Low latency [PipeWire](https://github.com/PipeWire/pipewire) audio processing.
@@ -53,10 +53,10 @@
 * **15-25%** improved network efficiency.
 * A Lynis system hardening rating of **80** on desktop and **78** for laptop.
 
-## How CoolRune Works
+## How Algiz-Linux Works
 
 ### Kernel & Security Hardening
-CoolRune implements kernel hardening which increases security and performance. The system prevents privilege escalation attacks through restricted ptrace access and disabled unprivileged BPF operations, while eliminating core dump generation to reduce attack surface. Process handling is optimized for high-concurrency workloads with expanded PID limits and disabled automatic NUMA balancing to prevent unnecessary CPU migrations that degrade cache locality.
+Algiz-Linux implements kernel hardening which increases security and performance. The system prevents privilege escalation attacks through restricted ptrace access and disabled unprivileged BPF operations, while eliminating core dump generation to reduce attack surface. Process handling is optimized for high-concurrency workloads with expanded PID limits and disabled automatic NUMA balancing to prevent unnecessary CPU migrations that degrade cache locality.
 
 ### Memory Management Optimization
 Aggressive memory tuning prioritizes RAM utilization over swap usage, keeping active data in fast memory while optimizing write-back behavior for sustained throughput. The VM subsystem is configured to reduce unnecessary memory compaction overhead while maintaining balanced VFS cache pressure for responsive file operations. HugePages are pre-allocated to eliminate allocation overhead for memory-intensive applications.
@@ -84,7 +84,7 @@ Graphics performance is enhanced through threaded shader compilation and caching
 Development workflows are accelerated through compiler caching with compression and CPU-specific optimizations that maximize instruction throughput. Thread utilization is optimized for physical core topology rather than logical threads, reducing cache contention and memory bandwidth pressure on SMT-enabled systems while maintaining optimal parallelization for compilation tasks.
 
 ### CPU Architecture Detection & ALHP Repository Integration
-CoolRune automatically detects CPU architecture on installation to ensure optimal package selection. The system integrates some of ALHP's repositories which provide architecture-specific builds optimized for modern processor capabilities while keeping Artix's core system packages.
+Algiz-Linux automatically detects CPU architecture on installation to ensure optimal package selection. The system integrates some of ALHP's repositories which provide architecture-specific builds optimized for modern processor capabilities while keeping Artix's core system packages.
 
 ### Hardware-Specific Presets
 * **AMD/Intel** - Optimized for AMD and Intel CPUs with integrated or discrete graphics, featuring auto-detection for AMD Infinity Fabric or Intel mesh topologies, RDNA/Arc GPU acceleration and enhanced scheduler affinity.
