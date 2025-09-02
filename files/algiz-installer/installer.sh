@@ -91,7 +91,7 @@ retry() {
   done
 }
 
-### ALGIZ-LINUX CHOICE SELECTION ###
+### ALGIZ LINUX CHOICE SELECTION ###
 
 echo -e "\e[1mSelect a Algiz-Linux Variant\e[0m"
 echo "1. AMD-DESKTOP"
@@ -196,7 +196,7 @@ if pacman -Q protonup-git &>/dev/null; then
     su - "$USER" -c "protonup -d /home/$USER/.local/share/Steam/compatibilitytools.d/ && protonup -y"
 fi
 
-### ALGIZ-LINUX INSTALL ###
+### ALGIZ LINUX INSTALL ###
 
 # AMD/INTEL DESKTOP SELECTION
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
