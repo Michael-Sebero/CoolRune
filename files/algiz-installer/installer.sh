@@ -189,7 +189,7 @@ fi
 
 # INSTALL FLATPAK PACKAGES
 flatpak remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-flatpak install -y flathub org.kde.haruna org.jdownloader.JDownloader
+flatpak install -y flathub org.kde.haruna
 
 # INSTALL PROTON-GE
 if pacman -Q protonup-git &>/dev/null; then
