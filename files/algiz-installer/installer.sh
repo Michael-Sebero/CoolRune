@@ -93,7 +93,7 @@ retry() {
 
 ### ALGIZ LINUX CHOICE SELECTION ###
 
-echo -e "\e[1mSelect a Algiz-Linux Variant\e[0m"
+echo -e "\e[1mSelect a Algiz Linux Variant\e[0m"
 echo "1. AMD-DESKTOP"
 echo "2. AMD-LAPTOP"
 echo "3. INTEL-DESKTOP"
