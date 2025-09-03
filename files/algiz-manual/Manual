@@ -45,7 +45,7 @@
 
  - To update all of your system's packages at once run the command [ update ]
 
- - If you want to update Algiz to the newest version, run the command [ update-system ]
+ - If you want to update Algiz to the newest version, run the command [ update-algiz ]
 
  - Algiz uses an automatic MAC address changer upon login.
 
