@@ -45,7 +45,7 @@
 * Battery life optimizations for laptops via [TLP](https://github.com/linrunner/TLP).
 * [Mimalloc](https://github.com/microsoft/mimalloc) (high-performance memory allocator).
 * Uses tmpfs to speed up temporary directories and reducing disk I/O.
-* [AC-Mode](https://github.com/Michael-Sebero/AC-Mode) (laptop performance service).
+* [Battery Manager](https://github.com/Michael-Sebero/Battery-Manager) (laptop battery manager).
 
 ## Performance & Security Expectations
 * **10-25%** FPS boost in gaming.
@@ -91,7 +91,7 @@ Algiz Linux automatically detects CPU architecture on installation to ensure opt
 
 * **NVIDIA** - Configured for NVIDIA GPU acceleration with CUDA optimizations, enhanced memory allocation for GPU computing and driver-specific performance tuning for gaming and machine learning workloads.
 
-* **Laptop** - Balanced between power saving and increased system performance. Includes bluetooth capibility, faster system responsiveness and system hardening. Features `ac-mode` which increases system performance when the system is at 79% battery life and AC powered. 
+* **Laptop** - Balanced between power saving and increased system performance. Includes bluetooth capibility, faster system responsiveness and system hardening. Features `battery-manager` which increases system performance when the system is at 79% battery life/AC powered and at 10% enters power saving. 
 
 ### Workload-Specific Presets
 * **High Performance** - Maximum throughput configuration with reduced security mitigations, aggressive CPU scheduling, expanded memory limits and enhanced graphics pipeline.
