@@ -324,9 +324,9 @@
  
 ..................................................................................................................................................
 
- / FIX SYSTEM /
+ / REPAIR SYSTEM /
  
- . fix-system
+ . repair-system
  
  - This command is a troubleshooting tool for Algiz.
  
@@ -514,7 +514,7 @@
 
  > UNIVERSAL ADVICE
 
- . The command [ fix-algiz ] might fix your problem.
+ . The command [ repair-system ] might fix your problem.
  
  . CTRL + ALT + F1 will bring you into a virtual terminal if needed.
 
