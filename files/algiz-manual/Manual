@@ -152,7 +152,7 @@
 
  . ks
  
- - This command finds keywords in a directory quickly in realtime.
+ - This command finds keywords in a directory quickly.
 
 ..................................................................................................................................................
 
@@ -380,9 +380,9 @@
 
 ..................................................................................................................................................
 
- / REINSTALL /
+ / REINSTALL-ALL /
  
- . reinstall
+ . reinstall-all
 
  - This command reinstalls all packages in the system.
 
@@ -402,6 +402,14 @@
  
  - This command attempts to recover data from damaged devices and corrupted files.
 
+..................................................................................................................................................
+
+ / META /
+ 
+ . meta
+ 
+ - This script takes a media file path (from an argument or user input) and outputs detailed metadata about the file using ffprobe.
+ 
 ..................................................................................................................................................
 
 ==================================================================================================================================================
