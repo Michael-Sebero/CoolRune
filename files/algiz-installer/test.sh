@@ -105,39 +105,35 @@ install_latest() {
   for pkg in $packages; do
     if [ -z "$pkg" ]; then continue; fi
     
-    # Get all available versions of the package
-    local latest_version=""
-    local latest_repo=""
+    # Skip common flags that might appear in package list
+    if [[ "$pkg" =~ ^--.*$ ]]; then continue; fi
     
     # Use pacman/paru to search for the package and get version info
     local search_output=$($pkg_manager -Si "$pkg" 2>/dev/null | head -20)
     
     if [ -n "$search_output" ]; then
-      # Extract version and repository information
-      local version=$(echo "$search_output" | grep "^Version" | head -1 | awk '{print $3}')
-      local repo=$(echo "$search_output" | grep "^Repository" | head -1 | awk '{print $3}')
+      # Extract version and repository information safely
+      local version=$(echo "$search_output" | grep "^Version" | head -1 | awk '{print $3}' | tr -d ' ')
+      local repo=$(echo "$search_output" | grep "^Repository" | head -1 | awk '{print $3}' | tr -d ' ')
       
-      if [ -n "$version" ]; then
+      if [ -n "$version" ] && [ -n "$repo" ]; then
         echo "Found $pkg version $version in $repo repository" >&2
         install_list="$install_list $pkg"
       else
-        echo "Warning: Could not determine version for $pkg" >&2
+        echo "Warning: Could not determine version for $pkg, adding to install list anyway" >&2
         install_list="$install_list $pkg"
       fi
     else
-      echo "Warning: Package $pkg not found in repositories" >&2
+      echo "Warning: Package $pkg not found in repositories, skipping" >&2
     fi
   done
   
   # Install packages with forced upgrade to ensure latest versions
   if [ -n "$install_list" ]; then
-    # Use --needed to avoid reinstalling identical versions, but force refresh first
-    local cmd=""
-    if [ "$pkg_manager" = "paru" ]; then
-      cmd="$pkg_manager -S --noconfirm --needed --overwrite='*' $install_list"
-    else
-      cmd="$pkg_manager -S --noconfirm --needed --overwrite='*' $install_list"
-    fi
+    # Trim whitespace from install list
+    install_list=$(echo "$install_list" | sed "s/^[[:space:]]*//;s/[[:space:]]*$//")
+    
+    local cmd="$pkg_manager -S --noconfirm --needed --overwrite='*' $install_list"
     
     echo "Executing latest package installation: $cmd" >&2
     eval "$cmd"
@@ -181,7 +177,7 @@ unzip -o algiz-pacman-temp-2.zip -d /etc
 pacman -Sy --noconfirm alhp-keyring alhp-mirrorlist
 
 # CPU ARCHITECTURE DETECTION
-arch_support=$(/lib/ld-linux-x86-64.so.2 --help 2>&1 | grep '\''supported'\'' | head -n 1 | awk '\''{print $1}'\'')
+arch_support=$(/lib/ld-linux-x86-64.so.2 --help 2>&1 | grep '\''supported'\'' | head -1 | awk '\''{print $1}'\'')
 if [ "$arch_support" = "x86-64-v3" ]; then
     unzip -o algiz-pacman-v3.zip -d /etc
 elif [ "$arch_support" = "x86-64-v4" ]; then
@@ -210,38 +206,40 @@ paru -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-
 # REMOVE XFCE PACKAGES
 paru -Rdd --noconfirm epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril xfce4-sensors-plugin xfce4-notes-plugin xfce4-dict xfce4-weather-plugin || true
 
-# INSTALL BASE PACKAGES
-retry 5 install_latest paru -S --noconfirm --needed --ignore=vlc,vlc-git,nvidia-390xx-utils,lib32-nvidia-390xx-utils lib32-artix-archlinux-support unrar flatpak kate librewolf tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw macchanger networkmanager networkmanager-s6 nm-connection-editor wine-git wine-mono winetricks-git ufw-s6 steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber rust usbguard usbguard-s6 chkrootkit wget noto-fonts-emoji tauon-music-box freetube alsa-utils expect inotify-tools preload cpupower cpupower-s6 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld protontricks-git poetry pyenv python-pip hunspell-en_us ccache earlyoom earlyoom-s6 yt-dlp seahorse lib32-libdisplay-info lib32-vulkan-driver mesa-tkg-git lib32-mesa-tkg-git
+# INSTALL BASE PACKAGES WITH LATEST VERSION PRIORITY
+echo -e "\e[1mInstalling base packages with latest version priority...\e[0m"
+retry 5 install_latest paru lib32-artix-archlinux-support unrar flatpak kate librewolf tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw macchanger networkmanager networkmanager-s6 nm-connection-editor wine-git wine-mono winetricks-git ufw-s6 steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber rust usbguard usbguard-s6 chkrootkit wget noto-fonts-emoji tauon-music-box freetube alsa-utils expect inotify-tools preload cpupower cpupower-s6 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld protontricks-git poetry pyenv python-pip hunspell-en_us ccache earlyoom earlyoom-s6 yt-dlp seahorse lib32-libdisplay-info lib32-vulkan-driver mesa-tkg-git lib32-mesa-tkg-git
 
-# INSTALL PYTHON PACKAGES
-retry 5 install_latest paru -S --noconfirm --needed python-dateutil python-xlib python-psutil python-pyaudio python-pipenv python-matplotlib python-tqdm python-pillow python-mutagen python-magic python-piexif python-moviepy python-brotli python-websockets python-librosa python-audioread python-pypdf2
+# INSTALL PYTHON PACKAGES WITH LATEST VERSION PRIORITY
+echo -e "\e[1mInstalling Python packages with latest version priority...\e[0m"
+retry 5 install_latest paru python-dateutil python-xlib python-psutil python-pyaudio python-pipenv python-matplotlib python-tqdm python-pillow python-mutagen python-magic python-piexif python-moviepy python-brotli python-websockets python-librosa python-audioread python-pypdf2
 
-# INSTALL XFCE PACKAGES
+# INSTALL XFCE PACKAGES WITH LATEST VERSION PRIORITY
 if pacman -Qq | grep -q '^thunar$'; then
-    echo "Thunar detected, installing extra XFCE packages..."
-    retry 5 paru -S --noconfirm --needed mugshot xfce4-panel-profiles xorg-xrandr redshift lightdm-gtk-greeter-settings gtk-engines xdg-desktop-portal-gtk gtk-engine-murrine
+    echo "Thunar detected, installing extra XFCE packages with latest version priority..."
+    retry 5 install_latest paru mugshot xfce4-panel-profiles xorg-xrandr redshift lightdm-gtk-greeter-settings gtk-engines xdg-desktop-portal-gtk gtk-engine-murrine
 else
     echo "Thunar not detected, skipping XFCE packages."
 fi
 
-# AMD/INTEL-DESKTOP CHOICE
+# AMD/INTEL-DESKTOP CHOICE WITH LATEST VERSION PRIORITY
 if [ "$choice" = "1" ] || [ "$choice" = "3" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry 5 install_latest paru -S --noconfirm --needed linux-cachyos linux-cachyos-headers protonup-git vkbasalt lib32-vkbasalt fail2ban fail2ban-s6
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry 5 install_latest paru linux-cachyos linux-cachyos-headers protonup-git vkbasalt lib32-vkbasalt fail2ban fail2ban-s6
 fi
 
-# AMD/INTEL-LAPTOP CHOICE
+# AMD/INTEL-LAPTOP CHOICE WITH LATEST VERSION PRIORITY
 if [ "$choice" = "2" ] || [ "$choice" = "4" ]; then
-  retry 5 install_latest paru -S --noconfirm --needed linux-cachyos linux-cachyos-headers throttled tlp tlp-s6 blueman bluez bluez-s6 brightnessctl
+  retry 5 install_latest paru linux-cachyos linux-cachyos-headers throttled tlp tlp-s6 blueman bluez bluez-s6 brightnessctl
 fi
 
-# NVIDIA-OPENSOURCE-DESKTOP CHOICE
+# NVIDIA-OPENSOURCE-DESKTOP CHOICE WITH LATEST VERSION PRIORITY
 if [ "$choice" = "5" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry 5 install_latest paru -S --noconfirm --needed linux-cachyos linux-cachyos-headers protonup-git nvidia-utils nvidia-utils-s6 nvidia-settings fail2ban fail2ban-s6 nvidia-open-dkms lib32-nvidia-utils
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry 5 install_latest paru linux-cachyos linux-cachyos-headers protonup-git nvidia-utils nvidia-utils-s6 nvidia-settings fail2ban fail2ban-s6 nvidia-open-dkms lib32-nvidia-utils
 fi
 
-# NVIDIA-PROPRIETARY-DESKTOP CHOICE
+# NVIDIA-PROPRIETARY-DESKTOP CHOICE WITH LATEST VERSION PRIORITY
 if [ "$choice" = "6" ]; then
-  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry 5 install_latest paru -S --noconfirm --needed linux-cachyos linux-cachyos-headers protonup-git nvidia-utils nvidia-utils-s6 nvidia-settings fail2ban fail2ban-s6 nvidia-dkms lib32-nvidia-utils
+  paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry 5 install_latest paru linux-cachyos linux-cachyos-headers protonup-git nvidia-utils nvidia-utils-s6 nvidia-settings fail2ban fail2ban-s6 nvidia-dkms lib32-nvidia-utils
 fi
 
 # INSTALL FLATPAK PACKAGES
