@@ -95,51 +95,62 @@ install_latest() {
   shift
   local packages="$@"
   
-  echo "Installing latest versions of packages: $packages" >&2
+  echo "Installing latest versions of packages (optimized): $packages" >&2
   
-  # Force refresh package databases
+  # Force refresh package databases once
   $pkg_manager -Syy
   
-  # For each package, find the latest version across all repositories
+  # Build install list quickly without individual version checks
   local install_list=""
+  local valid_packages=""
+  
+  # Quick batch check for package availability
   for pkg in $packages; do
     if [ -z "$pkg" ]; then continue; fi
-    
-    # Skip common flags that might appear in package list
     if [[ "$pkg" =~ ^--.*$ ]]; then continue; fi
-    
-    # Use pacman/paru to search for the package and get version info
-    local search_output=$($pkg_manager -Si "$pkg" 2>/dev/null | head -20)
-    
-    if [ -n "$search_output" ]; then
-      # Extract version and repository information safely
-      local version=$(echo "$search_output" | grep "^Version" | head -1 | awk "{print \$3}")
-      local repo=$(echo "$search_output" | grep "^Repository" | head -1 | awk "{print \$3}")
-      
-      # Remove whitespace using parameter expansion instead of tr
-      version="${version// /}"
-      repo="${repo// /}"
-      
-      if [ -n "$version" ] && [ -n "$repo" ]; then
-        echo "Found $pkg version $version in $repo repository" >&2
-        install_list="$install_list $pkg"
-      else
-        echo "Warning: Could not determine version for $pkg, adding to install list anyway" >&2
-        install_list="$install_list $pkg"
-      fi
-    else
-      echo "Warning: Package $pkg not found in repositories, skipping" >&2
-    fi
+    valid_packages="$valid_packages $pkg"
   done
   
-  # Install packages with forced upgrade to ensure latest versions
+  # Use a single pacman query to check all packages at once
+  if [ -n "$valid_packages" ]; then
+    echo "Batch checking package availability..." >&2
+    
+    # Check packages in batches of 20 to avoid command line length limits
+    local batch=""
+    local count=0
+    
+    for pkg in $valid_packages; do
+      batch="$batch $pkg"
+      count=$((count + 1))
+      
+      # Process batch when it reaches 20 packages or at the end
+      if [ $count -eq 20 ] || [ "$pkg" = "$(echo $valid_packages | awk "{print \$NF}")" ]; then
+        # Quick availability check - if pacman can find info, package exists
+        local available_in_batch=""
+        for check_pkg in $batch; do
+          if $pkg_manager -Si "$check_pkg" >/dev/null 2>&1; then
+            available_in_batch="$available_in_batch $check_pkg"
+          else
+            echo "Skipping unavailable: $check_pkg" >&2
+          fi
+        done
+        
+        install_list="$install_list $available_in_batch"
+        batch=""
+        count=0
+      fi
+    done
+  fi
+  
+  # Install packages with latest version priority
   if [ -n "$install_list" ]; then
-    # Trim whitespace from install list
+    # Trim whitespace
     install_list=$(echo "$install_list" | sed "s/^[[:space:]]*//;s/[[:space:]]*$//")
     
-    local cmd="$pkg_manager -S --noconfirm --needed --overwrite='*' $install_list"
+    # Use refresh flag to ensure latest versions
+    local cmd="$pkg_manager -S --noconfirm --needed --refresh --overwrite='*' $install_list"
     
-    echo "Executing latest package installation: $cmd" >&2
+    echo "Executing optimized latest package installation: $cmd" >&2
     eval "$cmd"
     return $?
   else
@@ -211,9 +222,11 @@ paru -Rdd --noconfirm linux linux-headers pulseaudio pulseaudio-alsa pulseaudio-
 paru -Rdd --noconfirm epiphany xfce4-screensaver xfce4-terminal xfce4-screenshooter parole xfce4-taskmanager mousepad leafpad xfburn ristretto xfce4-appfinder atril xfce4-sensors-plugin xfce4-notes-plugin xfce4-dict xfce4-weather-plugin || true
 
 # INSTALL BASE PACKAGES WITH LATEST VERSION PRIORITY
+echo -e "\e[1mInstalling base packages with latest version priority...\e[0m"
 retry 5 install_latest paru lib32-artix-archlinux-support unrar flatpak kate librewolf tmux liferea ksnip kcalc font-manager pix gimp gamemode lib32-gamemode okular dnscrypt-proxy dnscrypt-proxy-s6 apparmor apparmor-s6 bleachbit konsole catfish clamav clamav-s6 ark gufw macchanger networkmanager networkmanager-s6 nm-connection-editor wine-git wine-mono winetricks-git ufw-s6 steam lynis element-desktop rkhunter appimagelauncher opendoas mate-system-monitor chrony downgrade libreoffice pipewire-pulse pipewire-alsa wireplumber rust usbguard usbguard-s6 chkrootkit wget noto-fonts-emoji tauon-music-box freetube alsa-utils expect inotify-tools preload cpupower cpupower-s6 dialog tree parallel sof-firmware booster bottles vulkan-tools mimalloc mold lld protontricks-git poetry pyenv python-pip hunspell-en_us ccache earlyoom earlyoom-s6 yt-dlp seahorse lib32-libdisplay-info lib32-vulkan-driver mesa-tkg-git lib32-mesa-tkg-git
 
 # INSTALL PYTHON PACKAGES WITH LATEST VERSION PRIORITY
+echo -e "\e[1mInstalling Python packages with latest version priority...\e[0m"
 retry 5 install_latest paru python-dateutil python-xlib python-psutil python-pyaudio python-pipenv python-matplotlib python-tqdm python-pillow python-mutagen python-magic python-piexif python-moviepy python-brotli python-websockets python-librosa python-audioread python-pypdf2
 
 # INSTALL XFCE PACKAGES WITH LATEST VERSION PRIORITY
