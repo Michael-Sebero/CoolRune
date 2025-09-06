@@ -113,8 +113,8 @@ install_latest() {
     
     if [ -n "$search_output" ]; then
       # Extract version and repository information safely
-      local version=$(echo "$search_output" | grep "^Version" | head -1 | awk '{print $3}')
-      local repo=$(echo "$search_output" | grep "^Repository" | head -1 | awk '{print $3}')
+      local version=$(echo "$search_output" | grep "^Version" | head -1 | awk "{print \$3}")
+      local repo=$(echo "$search_output" | grep "^Repository" | head -1 | awk "{print \$3}")
       
       # Remove whitespace using parameter expansion instead of tr
       version="${version// /}"
