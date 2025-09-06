@@ -251,7 +251,7 @@ if [ "$choice" = "5" ]; then
 fi
 
 # NVIDIA-PROPRIETARY-DESKTOP CHOICE
-if [ "$choice" = "5" ]; then
+if [ "$choice" = "6" ]; then
   paru -Rdd --noconfirm xfce4-power-manager xfce4-battery-plugin && retry 5 install_latest paru -S --noconfirm --needed linux-cachyos linux-cachyos-headers protonup-git nvidia-utils nvidia-utils-s6 nvidia-settings fail2ban fail2ban-s6 nvidia-dkms && { install_latest paru -S --noconfirm --needed lib32-nvidia-utils || install_latest paru -S --noconfirm --needed lib32-vulkan-driver; }
 fi
 
