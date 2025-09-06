@@ -110,6 +110,10 @@
  
  - You can download multiple URLs if they're separated by spaces.
  
+ . steal-latest [ PACKAGE ]
+ 
+ - This command doesn't cycle, used for rare package version conflicts.
+ 
 ..................................................................................................................................................
 
  / UNINSTALL PACKAGES /
