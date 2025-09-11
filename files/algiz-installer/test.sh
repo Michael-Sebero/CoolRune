@@ -38,6 +38,7 @@ retry() {
     then
       echo "Attempt $attempt_num failed! Filtering out unavailable packages and retrying..." >&2
       
+      # Extract package names and detect package manager
       local pkg_list=""
       local pkg_manager=""
       local base_flags=""
@@ -55,6 +56,7 @@ retry() {
         return 0
       fi
       
+      # Extract additional flags (like --ignore)
       local extra_flags=""
       if echo "$command" | grep -q -- "--ignore="; then
         extra_flags=$(echo "$command" | grep -o -- "--ignore=[^ ]*")
@@ -66,6 +68,7 @@ retry() {
         fi
       fi
       
+      # Get list of available packages
       echo "Checking package availability with $pkg_manager..." >&2
       local all_pkgs=($pkg_list)
       local available_pkgs=""
@@ -73,6 +76,8 @@ retry() {
       
       for pkg in "${all_pkgs[@]}"; do
         if [ -z "$pkg" ]; then continue; fi
+        
+        # Check if package exists in repositories
         if $pkg_manager -Si "$pkg" &>/dev/null; then
           available_pkgs="$available_pkgs $pkg"
         else
@@ -80,6 +85,7 @@ retry() {
         fi
       done
       
+      # Trim whitespace
       available_pkgs=$(echo "$available_pkgs" | sed "s/^[[:space:]]*//;s/[[:space:]]*$//")
       unavailable_pkgs=$(echo "$unavailable_pkgs" | sed "s/^[[:space:]]*//;s/[[:space:]]*$//")
       
@@ -88,9 +94,12 @@ retry() {
       fi
       
       if [ -n "$available_pkgs" ]; then
+        # Reconstruct the command with available packages only
         local new_cmd="$pkg_manager $base_flags $extra_flags $available_pkgs"
         echo "Installing available packages: $available_pkgs" >&2
         echo "Executing: $new_cmd" >&2
+        
+        # Execute the modified command
         eval "$new_cmd" && return 0 || return 1
       else
         echo "No available packages found, skipping installation..." >&2
@@ -104,15 +113,12 @@ retry() {
   done
 }
 
-### SERVICE MANAGEMENT FUNCTIONS ###
 add_service() {
     local service_name="$1"
     case "$INIT_SYSTEM" in
         runit)
             if [ -d "/etc/runit/sv/$service_name" ]; then
-                ln -sf "/etc/runit/sv/$service_name" "/run/runit/service/"
-            else
-                echo "Warning: service $service_name not found in /etc/runit/sv"
+                ln -sfn "/etc/runit/sv/$service_name" "/run/runit/service/$service_name"
             fi
             ;;
         s6)
@@ -120,21 +126,6 @@ add_service() {
             ;;
         openrc)
             rc-update add "$service_name" default
-            ;;
-    esac
-}
-
-remove_service() {
-    local service_name="$1"
-    case "$INIT_SYSTEM" in
-        runit)
-            rm -f "/run/runit/service/$service_name"
-            ;;
-        s6)
-            s6-service del default "$service_name"
-            ;;
-        openrc)
-            rc-update del "$service_name" default
             ;;
     esac
 }
@@ -162,8 +153,14 @@ curl -s https://raw.githubusercontent.com/chaotic-aur/.github/refs/heads/main/pr
 ### FIRST COMMANDS AND ALGIZ-LINUX IMPORT P1 ###
 killall xfce4-screensaver || true
 pacman -Sy --noconfirm --needed p7zip unzip git base-devel
-mkdir -p /home/algiz-files/
-git clone https://github.com/Algiz-Linux/algiz-files /home/algiz-files/ || true
+mkdir /home/algiz-files/
+git clone https://github.com/Michael-Sebero/Algiz-Linux /home/algiz-files/
+cd /home/algiz-files/files/algiz-packages/
+unzip -o algiz-pacman-temp-1.zip -d /etc
+pacman -Sy --noconfirm artix-archlinux-support pacman-contrib artix-keyring archlinux-keyring artix-mirrorlist archlinux-mirrorlist
+pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+unzip -o algiz-pacman-temp-2.zip -d /etc
+pacman -Sy --noconfirm alhp-keyring alhp-mirrorlist
 
 # CPU ARCHITECTURE DETECTION
 arch_support=$(/lib/ld-linux-x86-64.so.2 --help 2>&1 | grep '\''supported'\'' | head -n 1 | awk '\''{print $1}'\'')
@@ -325,29 +322,7 @@ fi
 # INSTALL UNIVERSAL RC.LOCAL
 
 # Runit
-if [ -d /etc/runit ]; then
-  mkdir -p /etc/runit/sv/rc.local
 
-  # run script
-  cat > /etc/runit/sv/rc.local/run << 'EOF'
-#!/bin/sh
-exec 2>&1
-/etc/rc.local
-exit 0
-EOF
-  chmod 755 /etc/runit/sv/rc.local/run
-
-  # finish script to prevent restart
-  cat > /etc/runit/sv/rc.local/finish << 'EOF'
-#!/bin/sh
-exec 2>&1
-exit 0
-EOF
-  chmod 755 /etc/runit/sv/rc.local/finish
-
-  # enable service (active runlevel)
-  ln -sf /etc/runit/sv/rc.local /run/runit/service/
-fi
 
 # S6
 if [ -d /etc/s6 ]; then

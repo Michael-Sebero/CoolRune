@@ -291,12 +291,10 @@ case "$INIT_SYSTEM" in
     runit)
         unlink /run/runit/service/connmand 2>/dev/null || true
         pacman -Rdd --noconfirm connman connman-runit connman-gtk
-        reload_services
         ;;
     s6)
         rm -f /etc/s6/adminsv/default/contents.d/connmand
         pacman -Rdd --noconfirm connman connman-s6 connman-gtk
-        reload_services
         ;;
     openrc)
         rc-update del connman default || true
