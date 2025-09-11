@@ -109,7 +109,6 @@ add_service() {
     local service_name="$1"
     case "$INIT_SYSTEM" in
         runit)
-            # Artix runit: enable service by linking into /run/runit/service
             if [ -d "/etc/runit/sv/$service_name" ]; then
                 ln -sf "/etc/runit/sv/$service_name" "/run/runit/service/"
             else
